@@ -1,0 +1,77 @@
+@import "tailwindcss";
+
+@theme {
+  /* Fonts */
+  --font-display: var(--font-syne), sans-serif;
+  --font-sans: var(--font-inter), sans-serif;
+
+  /* Brand colors */
+  --color-accent: #c8ff00;
+  --color-void-black: #060608;
+  --color-void-white: #f2f0eb;
+  --color-grey: #1a1a1f;
+  --color-grey-mid: #2e2e36;
+  --color-grey-text: #8b8b96;
+
+  /* shadcn card tokens */
+  --color-card: #1a1a1f;
+  --color-card-foreground: #f2f0eb;
+  --color-muted-foreground: #8b8b96;
+
+  /* Animations */
+  --animate-spotlight: spotlight 2s ease 0.75s 1 forwards;
+  --animate-marquee: marquee 22s linear infinite;
+}
+
+@keyframes spotlight {
+  0%   { opacity: 0; transform: translate(-72%, -62%) scale(0.5); }
+  100% { opacity: 1; transform: translate(-50%, -40%) scale(1); }
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes scrollLine {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+:root {
+  --background: #060608;
+  --foreground: #f2f0eb;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  overflow-x: hidden;
+}
+
+/* Spline loader */
+.loader {
+  width: 28px;
+  height: 28px;
+  border: 2px solid rgba(200, 255, 0, 0.15);
+  border-top-color: #c8ff00;
+  border-radius: 50%;
+  display: block;
+  animation: spin 0.8s linear infinite;
+}
+
+/* Scroll indicator inner bar */
+.scroll-line {
+  position: absolute;
+  inset: 0;
+  background: #c8ff00;
+  animation: scrollLine 2s ease-in-out infinite;
+}
