@@ -168,9 +168,9 @@ export default function Home() {
 
       {/* ── NAV ── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-8 md:px-16 py-5 transition-all duration-300 ${
-        scrolled ? 'bg-dark/90 backdrop-blur-xl border-b border-dark-border' : 'bg-dark'
+        scrolled ? 'bg-white/95 backdrop-blur-xl border-b border-light-border' : 'bg-white border-b border-light-border'
       }`}>
-        <a href="#" className="font-display text-lg font-extrabold tracking-widest text-white">
+        <a href="#" className="font-display text-lg font-extrabold tracking-widest text-ink">
           VOID
         </a>
         <ul className="hidden md:flex gap-8 list-none">
@@ -181,7 +181,7 @@ export default function Home() {
             { label: 'Fondateurs', href: '#founders' },
           ].map((item) => (
             <li key={item.label}>
-              <a href={item.href} className="text-[12px] font-medium text-dark-muted hover:text-white transition-colors">
+              <a href={item.href} className="text-[12px] font-medium text-light-muted hover:text-ink transition-colors">
                 {item.label}
               </a>
             </li>
@@ -196,25 +196,24 @@ export default function Home() {
       </nav>
 
       {/* ── HERO ── */}
-      <section className="bg-dark min-h-screen flex flex-col items-center justify-center text-center px-6 pt-20 relative overflow-hidden" id="home">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-primary/8 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute top-20 right-20 w-64 h-64 bg-primary/5 rounded-full blur-2xl pointer-events-none" />
+      <section className="bg-white min-h-screen flex flex-col items-center justify-center text-center px-6 pt-20 relative overflow-hidden" id="home">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-primary/5 rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative z-10 max-w-4xl mx-auto">
           <p className="text-[11px] font-semibold tracking-[0.22em] uppercase text-primary mb-8">
             Agence Web &amp; Intelligence Artificielle
           </p>
-          <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.05] tracking-tight text-white mb-6">
+          <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.05] tracking-tight text-ink mb-6">
             On développe votre<br />
             <span className="text-primary">présence digitale</span>
           </h1>
-          <p className="text-base md:text-lg text-dark-muted max-w-xl mx-auto mb-10 leading-relaxed">
+          <p className="text-base md:text-lg text-light-muted max-w-xl mx-auto mb-10 leading-relaxed">
             Faites l&apos;expérience d&apos;une agence digitale unique où créativité et technologie se rencontrent. Votre vision, transformée en réalité numérique.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
             <a
               href="#services"
-              className="text-[12px] font-bold border border-white/25 text-white px-7 py-3.5 rounded-full hover:border-white/60 transition-colors"
+              className="text-[12px] font-bold border border-light-border text-ink px-7 py-3.5 rounded-full hover:border-primary hover:text-primary transition-colors"
             >
               Découvrir nos services
             </a>
@@ -231,15 +230,15 @@ export default function Home() {
                 <StarIcon key={i} className="w-4 h-4 text-yellow-400" />
               ))}
             </div>
-            <span className="text-[12px] text-dark-muted">
-              <strong className="text-white">5/5</strong> — Agence de confiance · Paris, France
+            <span className="text-[12px] text-light-muted">
+              <strong className="text-ink">5/5</strong> — Agence de confiance · Paris, France
             </span>
           </div>
         </div>
       </section>
 
       {/* ── MARQUEE ── */}
-      <div className="bg-dark border-y border-dark-border py-4 overflow-hidden">
+      <div className="bg-light border-y border-light-border py-4 overflow-hidden">
         <div className="flex animate-marquee whitespace-nowrap">
           {[0, 1].map((set) => (
             <div key={set} className="flex shrink-0">
@@ -331,53 +330,53 @@ export default function Home() {
       </section>
 
       {/* ── PROCESS ── */}
-      <section className="bg-dark px-8 md:px-16 py-28" id="process">
+      <section className="bg-white px-8 md:px-16 py-28 border-t border-light-border" id="process">
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
           {/* Left: abstract visual */}
-          <div className="relative rounded-2xl overflow-hidden aspect-[4/3] bg-dark-card border border-dark-border">
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/15 via-transparent to-transparent" />
-            <div className="absolute inset-0 p-8 grid grid-cols-3 gap-3 opacity-40">
+          <div className="relative rounded-2xl overflow-hidden aspect-[4/3] bg-light border border-light-border">
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-transparent" />
+            <div className="absolute inset-0 p-8 grid grid-cols-3 gap-3 opacity-50">
               {Array.from({ length: 6 }).map((_, i) => (
-                <div key={i} className={`border border-dark-border rounded-lg ${i % 3 === 0 ? 'col-span-2' : ''}`} />
+                <div key={i} className={`border border-light-border rounded-lg bg-white ${i % 3 === 0 ? 'col-span-2' : ''}`} />
               ))}
               {Array.from({ length: 3 }).map((_, i) => (
-                <div key={i} className="border border-dark-border rounded-lg" />
+                <div key={i} className="border border-light-border rounded-lg bg-white" />
               ))}
             </div>
             <div className="absolute bottom-8 left-8 right-8">
-              <div className="h-2 bg-dark-border rounded-full mb-2 w-3/4" />
-              <div className="h-2 bg-dark-border rounded-full mb-2 w-1/2" />
+              <div className="h-2 bg-light-border rounded-full mb-2 w-3/4" />
+              <div className="h-2 bg-light-border rounded-full mb-2 w-1/2" />
               <div className="h-2 bg-primary/40 rounded-full w-2/3" />
             </div>
           </div>
 
           {/* Right: steps */}
           <div>
-            <SectionLabel dark>Notre Processus de Création</SectionLabel>
-            <h2 className="font-display text-3xl md:text-4xl font-extrabold text-white leading-tight mb-4">
+            <SectionLabel>Notre Processus de Création</SectionLabel>
+            <h2 className="font-display text-3xl md:text-4xl font-extrabold text-ink leading-tight mb-4">
               Votre site web, en seulement quelques étapes
             </h2>
-            <p className="text-sm text-dark-muted mb-10 leading-relaxed">
+            <p className="text-sm text-light-muted mb-10 leading-relaxed">
               Sollicitez notre expertise pour obtenir un devis sur mesure, entièrement adapté à vos attentes et sans engagement.
             </p>
-            <div className="bg-dark-card border border-dark-border rounded-2xl p-6">
+            <div className="bg-light border border-light-border rounded-2xl p-6">
               {PROCESS.map((step, i) => (
                 <div key={i} className="flex gap-4 items-start relative">
                   {i < PROCESS.length - 1 && (
-                    <div className="absolute left-5 top-10 w-px h-10 bg-dark-border z-0" />
+                    <div className="absolute left-5 top-10 w-px h-10 bg-light-border z-0" />
                   )}
                   <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 font-bold text-sm z-10 ${
                     i < PROCESS.length - 1
                       ? 'bg-primary text-white'
-                      : 'border-2 border-dark-border text-dark-muted'
+                      : 'border-2 border-light-border text-light-muted'
                   }`}>
                     {step.num}
                   </div>
                   <div className={i < PROCESS.length - 1 ? 'pb-9' : ''}>
-                    <a href="#contact" className="font-display font-bold text-white text-base mb-1 hover:text-primary transition-colors block">
+                    <a href="#contact" className="font-display font-bold text-ink text-base mb-1 hover:text-primary transition-colors block">
                       {step.name}
                     </a>
-                    <p className="text-sm text-dark-muted leading-relaxed">{step.desc}</p>
+                    <p className="text-sm text-light-muted leading-relaxed">{step.desc}</p>
                   </div>
                 </div>
               ))}
