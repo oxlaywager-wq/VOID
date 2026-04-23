@@ -210,7 +210,7 @@ export default function Home() {
         scrolled ? 'bg-white/95 backdrop-blur-xl border-b border-light-border' : 'bg-white border-b border-light-border'
       }`}>
         <a href="#">
-          <img src="/logo.png" alt="VOID" className="h-10 w-auto object-contain" />
+          <img src="/logo.png" alt="VOID" className="h-10 w-auto object-contain" style={{ mixBlendMode: 'multiply' }} />
         </a>
         <ul className="hidden md:flex gap-8 list-none">
           {[
