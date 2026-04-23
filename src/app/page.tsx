@@ -164,7 +164,12 @@ export default function Home() {
       <nav className={`fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-8 md:px-16 py-5 transition-all duration-300 ${
         scrolled ? 'bg-white/95 backdrop-blur-xl border-b border-light-border' : 'bg-white border-b border-light-border'
       }`}>
-        <a href="#" className="font-display text-lg font-extrabold tracking-widest text-ink">
+        <a href="#" className="font-display text-xl font-extrabold tracking-widest" style={{
+          background: 'linear-gradient(135deg, #a855f7, #7c3aed, #6366f1)',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          backgroundClip: 'text',
+        }}>
           VOID
         </a>
         <ul className="hidden md:flex gap-8 list-none">

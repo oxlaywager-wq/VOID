@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import { Inter, Plus_Jakarta_Sans } from "next/font/google"
+import { Inter, Bricolage_Grotesque } from "next/font/google"
 import "./globals.css"
 
 const inter = Inter({
@@ -8,10 +8,10 @@ const inter = Inter({
   weight: ["300", "400", "500", "600"],
 })
 
-const jakarta = Plus_Jakarta_Sans({
+const bricolage = Bricolage_Grotesque({
   variable: "--font-syne",
   subsets: ["latin"],
-  weight: ["600", "700", "800"],
+  weight: ["400", "500", "600", "700", "800"],
 })
 
 export const metadata: Metadata = {
@@ -23,7 +23,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="fr" className={`${inter.variable} ${jakarta.variable} h-full antialiased`}>
+    <html lang="fr" className={`${inter.variable} ${bricolage.variable} h-full antialiased`}>
       <body className="min-h-full">{children}</body>
     </html>
   )
