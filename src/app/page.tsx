@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { Hero } from '@/components/ui/animated-hero'
+import { ContainerScroll } from '@/components/ui/container-scroll-animation'
 
 function FadeIn({ children, className, delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
   const ref = useRef(null)
@@ -273,6 +274,31 @@ export default function Home() {
           ))}
         </div>
       </div>
+
+      {/* ── SCROLL SHOWCASE ── */}
+      <section className="bg-white overflow-hidden">
+        <ContainerScroll
+          titleComponent={
+            <div className="mb-8">
+              <p className="text-[11px] font-semibold tracking-[0.22em] uppercase text-primary mb-4">
+                Nos réalisations
+              </p>
+              <h2 className="font-display text-4xl md:text-6xl font-extrabold text-ink leading-tight">
+                Des sites qui <span className="text-primary">impressionnent</span>
+              </h2>
+              <p className="text-base text-light-muted mt-4 max-w-xl mx-auto">
+                Chaque projet est une expérience unique, conçue pour convertir et marquer les esprits.
+              </p>
+            </div>
+          }
+        >
+          <iframe
+            src="https://dreamy-starlight-f8f45b.netlify.app/"
+            className="w-full h-full border-0 rounded-2xl"
+            title="R'Padel"
+          />
+        </ContainerScroll>
+      </section>
 
       {/* ── SERVICES ── */}
       <section className="bg-light px-8 md:px-16 py-28" id="services">
