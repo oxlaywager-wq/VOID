@@ -132,24 +132,24 @@ const FOUNDERS = [
 
 const PROJECTS = [
   {
-    name: 'Projet 1',
+    name: "R'Padel",
     category: 'Site vitrine',
-    desc: 'Design premium et développement full-stack pour une expérience utilisateur optimale.',
+    desc: 'Centre de padel moderne — réservations en ligne, animations et design premium.',
     image: null,
-    href: '#',
+    href: 'https://dreamy-starlight-f8f45b.netlify.app/',
     color: 'from-violet-500/20 to-purple-600/20',
   },
   {
     name: 'Projet 2',
-    category: 'E-commerce',
-    desc: 'Boutique en ligne performante avec intégration paiement et gestion des stocks.',
+    category: 'Site vitrine',
+    desc: 'Design premium et développement full-stack pour une expérience utilisateur optimale.',
     image: null,
     href: '#',
     color: 'from-blue-500/20 to-indigo-600/20',
   },
   {
     name: 'Projet 3',
-    category: 'Application web',
+    category: 'Site vitrine',
     desc: 'Interface intelligente avec chatbot IA intégré et automatisation des processus.',
     image: null,
     href: '#',
@@ -157,8 +157,8 @@ const PROJECTS = [
   },
   {
     name: 'Projet 4',
-    category: 'Refonte',
-    desc: 'Refonte complète de l\'identité digitale avec performances décuplées.',
+    category: 'Site vitrine',
+    desc: "Refonte complète de l'identité digitale avec performances décuplées.",
     image: null,
     href: '#',
     color: 'from-purple-500/20 to-violet-600/20',
@@ -185,12 +185,22 @@ function SectionLabel({ children, dark = false }: { children: React.ReactNode; d
 
 export default function Home() {
   const [scrolled, setScrolled] = useState(false)
+  const [activeProject, setActiveProject] = useState<typeof PROJECTS[0] | null>(null)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60)
     window.addEventListener('scroll', onScroll)
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
+
+  useEffect(() => {
+    if (activeProject) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => { document.body.style.overflow = '' }
+  }, [activeProject])
 
   return (
     <main className="overflow-x-hidden">
@@ -295,14 +305,11 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {PROJECTS.map((p, i) => (
-              <a
+              <div
                 key={i}
-                href={p.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group relative rounded-2xl overflow-hidden border border-light-border hover:border-primary/40 hover:shadow-xl transition-all duration-300"
+                className="group relative rounded-2xl overflow-hidden border border-light-border hover:border-primary/40 hover:shadow-xl transition-all duration-300 cursor-pointer"
+                onClick={() => p.href !== '#' && setActiveProject(p)}
               >
-                {/* Image or placeholder */}
                 <div className={`w-full aspect-[16/9] bg-gradient-to-br ${p.color} flex items-center justify-center relative overflow-hidden`}>
                   {p.image ? (
                     <img src={p.image} alt={p.name} className="w-full h-full object-cover" />
@@ -310,17 +317,19 @@ export default function Home() {
                     <div className="flex flex-col items-center gap-3 opacity-40">
                       <div className="w-16 h-12 border-2 border-primary rounded-lg" />
                       <div className="text-[11px] font-semibold tracking-widest uppercase text-primary">
-                        Screenshot à venir
+                        Aperçu disponible
                       </div>
                     </div>
                   )}
                   {/* Hover overlay */}
-                  <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/5 transition-colors duration-300" />
-                  <div className="absolute top-4 right-4 w-8 h-8 rounded-full bg-white border border-light-border flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 -translate-y-1 group-hover:translate-y-0">
-                    <ArrowIcon className="w-3.5 h-3.5 stroke-primary" />
-                  </div>
+                  {p.href !== '#' && (
+                    <div className="absolute inset-0 bg-ink/0 group-hover:bg-ink/40 transition-all duration-300 flex items-center justify-center">
+                      <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white text-ink text-[12px] font-bold px-5 py-2.5 rounded-full flex items-center gap-2">
+                        Voir en direct <ArrowIcon className="w-3.5 h-3.5 stroke-ink" />
+                      </span>
+                    </div>
+                  )}
                 </div>
-                {/* Info */}
                 <div className="p-6 bg-white">
                   <div className="flex items-center justify-between mb-2">
                     <h3 className="font-display text-lg font-extrabold text-ink">{p.name}</h3>
@@ -330,11 +339,53 @@ export default function Home() {
                   </div>
                   <p className="text-sm text-light-muted leading-relaxed">{p.desc}</p>
                 </div>
-              </a>
+              </div>
             ))}
           </div>
         </div>
       </section>
+
+      {/* ── MODAL IFRAME ── */}
+      {activeProject && (
+        <div className="fixed inset-0 z-[100] flex flex-col" onClick={() => setActiveProject(null)}>
+          <div className="absolute inset-0 bg-ink/80 backdrop-blur-sm" />
+          <div className="relative z-10 flex flex-col h-full max-w-7xl mx-auto w-full p-4">
+            {/* Modal header */}
+            <div className="flex items-center justify-between bg-white rounded-t-2xl px-6 py-4" onClick={e => e.stopPropagation()}>
+              <div className="flex items-center gap-3">
+                <span className="font-display font-extrabold text-ink">{activeProject.name}</span>
+                <span className="text-[10px] font-semibold tracking-widest uppercase text-primary bg-primary/10 px-3 py-1 rounded-full">
+                  {activeProject.category}
+                </span>
+              </div>
+              <div className="flex items-center gap-3">
+                <a
+                  href={activeProject.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[12px] font-bold text-primary hover:underline flex items-center gap-1.5"
+                >
+                  Ouvrir dans un onglet <ArrowIcon className="w-3.5 h-3.5 stroke-primary" />
+                </a>
+                <button
+                  onClick={() => setActiveProject(null)}
+                  className="w-8 h-8 rounded-full bg-light border border-light-border flex items-center justify-center hover:bg-light-border transition-colors text-ink font-bold text-sm"
+                >
+                  ✕
+                </button>
+              </div>
+            </div>
+            {/* iframe */}
+            <div className="flex-1 bg-white rounded-b-2xl overflow-hidden" onClick={e => e.stopPropagation()}>
+              <iframe
+                src={activeProject.href}
+                className="w-full h-full border-0"
+                title={activeProject.name}
+              />
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* ── ABOUT ── */}
       <section className="bg-light-card px-8 md:px-16 py-28 border-t border-light-border" id="about">
