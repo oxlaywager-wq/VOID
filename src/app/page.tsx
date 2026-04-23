@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { Hero } from '@/components/ui/animated-hero'
 
 function ArrowIcon({ className }: { className?: string }) {
   return (
@@ -10,13 +11,6 @@ function ArrowIcon({ className }: { className?: string }) {
   )
 }
 
-function StarIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
-      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-    </svg>
-  )
-}
 
 function MonitorIcon() {
   return (
@@ -196,45 +190,8 @@ export default function Home() {
       </nav>
 
       {/* ── HERO ── */}
-      <section className="bg-white min-h-screen flex flex-col items-center justify-center text-center px-6 pt-20 relative overflow-hidden" id="home">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-primary/5 rounded-full blur-3xl pointer-events-none" />
-
-        <div className="relative z-10 max-w-4xl mx-auto">
-          <p className="text-[11px] font-semibold tracking-[0.22em] uppercase text-primary mb-8">
-            Agence Web &amp; Intelligence Artificielle
-          </p>
-          <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.05] tracking-tight text-ink mb-6">
-            On développe votre<br />
-            <span className="text-primary">présence digitale</span>
-          </h1>
-          <p className="text-base md:text-lg text-light-muted max-w-xl mx-auto mb-10 leading-relaxed">
-            Faites l&apos;expérience d&apos;une agence digitale unique où créativité et technologie se rencontrent. Votre vision, transformée en réalité numérique.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
-            <a
-              href="#services"
-              className="text-[12px] font-bold border border-light-border text-ink px-7 py-3.5 rounded-full hover:border-primary hover:text-primary transition-colors"
-            >
-              Découvrir nos services
-            </a>
-            <a
-              href="#contact"
-              className="text-[12px] font-bold bg-primary text-white px-7 py-3.5 rounded-full hover:bg-primary-hover transition-colors"
-            >
-              Démarrer un projet
-            </a>
-          </div>
-          <div className="flex items-center justify-center gap-3">
-            <div className="flex gap-0.5">
-              {[1, 2, 3, 4, 5].map((i) => (
-                <StarIcon key={i} className="w-4 h-4 text-yellow-400" />
-              ))}
-            </div>
-            <span className="text-[12px] text-light-muted">
-              <strong className="text-ink">5/5</strong> — Agence de confiance · Paris, France
-            </span>
-          </div>
-        </div>
+      <section className="pt-16" id="home">
+        <Hero />
       </section>
 
       {/* ── MARQUEE ── */}
