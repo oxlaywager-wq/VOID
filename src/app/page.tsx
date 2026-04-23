@@ -135,7 +135,7 @@ const PROJECTS = [
     name: "R'Padel",
     category: 'Site vitrine',
     desc: 'Centre de padel moderne — réservations en ligne, animations et design premium.',
-    image: null,
+    image: '/projects/rpadel.png',
     href: 'https://dreamy-starlight-f8f45b.netlify.app/',
     color: 'from-violet-500/20 to-purple-600/20',
   },
