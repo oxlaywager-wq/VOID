@@ -130,6 +130,41 @@ const FOUNDERS = [
   },
 ]
 
+const PROJECTS = [
+  {
+    name: 'Projet 1',
+    category: 'Site vitrine',
+    desc: 'Design premium et développement full-stack pour une expérience utilisateur optimale.',
+    image: null,
+    href: '#',
+    color: 'from-violet-500/20 to-purple-600/20',
+  },
+  {
+    name: 'Projet 2',
+    category: 'E-commerce',
+    desc: 'Boutique en ligne performante avec intégration paiement et gestion des stocks.',
+    image: null,
+    href: '#',
+    color: 'from-blue-500/20 to-indigo-600/20',
+  },
+  {
+    name: 'Projet 3',
+    category: 'Application web',
+    desc: 'Interface intelligente avec chatbot IA intégré et automatisation des processus.',
+    image: null,
+    href: '#',
+    color: 'from-fuchsia-500/20 to-pink-600/20',
+  },
+  {
+    name: 'Projet 4',
+    category: 'Refonte',
+    desc: 'Refonte complète de l\'identité digitale avec performances décuplées.',
+    image: null,
+    href: '#',
+    color: 'from-purple-500/20 to-violet-600/20',
+  },
+]
+
 const TECH_ROW_1 = ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'Node.js', 'Python', 'OpenAI', 'Vercel']
 const TECH_ROW_2 = ['Framer Motion', 'PostgreSQL', 'Supabase', 'Stripe', 'GitHub', 'Docker', 'Figma', 'GraphQL']
 
@@ -238,6 +273,64 @@ export default function Home() {
                   En savoir plus →
                 </a>
               </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── PORTFOLIO ── */}
+      <section className="bg-white px-8 md:px-16 py-28 border-t border-light-border" id="portfolio">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+            <div>
+              <SectionLabel>Réalisations</SectionLabel>
+              <h2 className="font-display text-3xl md:text-5xl font-extrabold text-ink leading-tight">
+                Nos derniers projets
+              </h2>
+            </div>
+            <a href="#contact" className="text-[12px] font-bold text-primary hover:underline shrink-0">
+              Démarrer votre projet →
+            </a>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {PROJECTS.map((p, i) => (
+              <a
+                key={i}
+                href={p.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group relative rounded-2xl overflow-hidden border border-light-border hover:border-primary/40 hover:shadow-xl transition-all duration-300"
+              >
+                {/* Image or placeholder */}
+                <div className={`w-full aspect-[16/9] bg-gradient-to-br ${p.color} flex items-center justify-center relative overflow-hidden`}>
+                  {p.image ? (
+                    <img src={p.image} alt={p.name} className="w-full h-full object-cover" />
+                  ) : (
+                    <div className="flex flex-col items-center gap-3 opacity-40">
+                      <div className="w-16 h-12 border-2 border-primary rounded-lg" />
+                      <div className="text-[11px] font-semibold tracking-widest uppercase text-primary">
+                        Screenshot à venir
+                      </div>
+                    </div>
+                  )}
+                  {/* Hover overlay */}
+                  <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/5 transition-colors duration-300" />
+                  <div className="absolute top-4 right-4 w-8 h-8 rounded-full bg-white border border-light-border flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 -translate-y-1 group-hover:translate-y-0">
+                    <ArrowIcon className="w-3.5 h-3.5 stroke-primary" />
+                  </div>
+                </div>
+                {/* Info */}
+                <div className="p-6 bg-white">
+                  <div className="flex items-center justify-between mb-2">
+                    <h3 className="font-display text-lg font-extrabold text-ink">{p.name}</h3>
+                    <span className="text-[10px] font-semibold tracking-widest uppercase text-primary bg-primary/10 px-3 py-1 rounded-full">
+                      {p.category}
+                    </span>
+                  </div>
+                  <p className="text-sm text-light-muted leading-relaxed">{p.desc}</p>
+                </div>
+              </a>
             ))}
           </div>
         </div>
