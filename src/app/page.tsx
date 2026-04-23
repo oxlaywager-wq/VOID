@@ -1,72 +1,154 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { SplineScene } from '@/components/ui/splite'
-import { Spotlight } from '@/components/ui/spotlight'
-
-const SERVICES = [
-  {
-    num: '01',
-    title: 'Sites Web\nSur Mesure',
-    desc: 'Design premium et développement full-stack, pensé pour convertir et marquer les esprits. Chaque pixel a un rôle.',
-  },
-  {
-    num: '02',
-    title: 'Chatbots\n& IA',
-    desc: 'Assistants virtuels entraînés sur votre contenu. Répondent 24/7, qualifient les leads, automatisent le support.',
-  },
-  {
-    num: '03',
-    title: 'Automatisation\nIntelligente',
-    desc: "Connectez vos outils, automatisez vos flux métier. L'IA travaille pendant que vous vous concentrez sur l'essentiel.",
-  },
-  {
-    num: '04',
-    title: 'Refonte &\nOptimisation',
-    desc: 'Audit complet de votre présence digitale. Refonte ciblée, performances décuplées, identité renforcée.',
-  },
-]
-
-const PROCESS = [
-  {
-    num: '01',
-    name: 'Découverte',
-    desc: "Immersion dans votre univers. Analyse de votre marché, de vos concurrents, de vos objectifs business. On ne code rien avant de tout comprendre.",
-  },
-  {
-    num: '02',
-    name: 'Stratégie & Design',
-    desc: "Architecture de l'information, wireframes, identité visuelle. Chaque décision est justifiée par la data et l'UX.",
-  },
-  {
-    num: '03',
-    name: 'Développement',
-    desc: "Code propre, performant, scalable. Intégration IA sur mesure. Tests rigoureux à chaque étape.",
-  },
-  {
-    num: '04',
-    name: 'Lancement & Suivi',
-    desc: "Déploiement soigné, monitoring post-launch, itérations basées sur les comportements réels de vos utilisateurs.",
-  },
-]
-
-const MARQUEE_ITEMS = [
-  'Sites Web Premium', 'Chatbots IA', 'Automatisation',
-  'Design Premium', 'Interfaces Intelligentes', 'Expériences Digitales',
-]
 
 function ArrowIcon({ className }: { className?: string }) {
   return (
-    <svg className={className} fill="none" strokeWidth="1.5" viewBox="0 0 24 24">
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
       <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
     </svg>
   )
 }
 
-function SectionLabel({ children }: { children: React.ReactNode }) {
+function StarIcon({ className }: { className?: string }) {
   return (
-    <div className="flex items-center gap-4 text-[10px] font-medium tracking-[0.22em] uppercase text-accent mb-14">
-      <div className="w-7 h-px bg-accent shrink-0" />
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+    </svg>
+  )
+}
+
+function MonitorIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-5 h-5">
+      <rect x="2" y="3" width="20" height="14" rx="2" />
+      <path strokeLinecap="round" d="M8 21h8M12 17v4" />
+    </svg>
+  )
+}
+
+function BotIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-5 h-5">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2v10z" />
+    </svg>
+  )
+}
+
+function ZapIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-5 h-5">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+    </svg>
+  )
+}
+
+function RefreshIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-5 h-5">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+    </svg>
+  )
+}
+
+function PenIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-5 h-5">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232l3.536 3.536M9 13l6-6m-6 6l-4 4h4v-4z" />
+    </svg>
+  )
+}
+
+function SearchIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-5 h-5">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z" />
+    </svg>
+  )
+}
+
+const SERVICES = [
+  {
+    Icon: MonitorIcon,
+    title: 'Sites Web Sur Mesure',
+    desc: 'Design premium et développement full-stack, pensé pour convertir et marquer les esprits. Chaque pixel a un rôle.',
+  },
+  {
+    Icon: BotIcon,
+    title: 'Chatbots & IA',
+    desc: 'Assistants virtuels entraînés sur votre contenu. Répondent 24/7, qualifient les leads, automatisent le support.',
+  },
+  {
+    Icon: ZapIcon,
+    title: 'Automatisation Intelligente',
+    desc: "Connectez vos outils, automatisez vos flux métier. L'IA travaille pendant que vous vous concentrez sur l'essentiel.",
+  },
+  {
+    Icon: RefreshIcon,
+    title: 'Refonte & Optimisation',
+    desc: 'Audit complet de votre présence digitale. Refonte ciblée, performances décuplées, identité renforcée.',
+  },
+  {
+    Icon: PenIcon,
+    title: 'UX/UI Design',
+    desc: 'Une interface intuitive et captivante. Nous concevons des expériences utilisateur qui convertissent et fidélisent.',
+  },
+  {
+    Icon: SearchIcon,
+    title: 'Référencement SEO',
+    desc: 'Optimisation naturelle pour atteindre les premières positions Google et générer du trafic qualifié en continu.',
+  },
+]
+
+const PROCESS = [
+  {
+    num: '1',
+    name: 'Contact et définition des besoins',
+    desc: "Immersion dans votre univers. Analyse de votre marché, de vos concurrents et de vos objectifs business.",
+  },
+  {
+    num: '2',
+    name: 'Production et itérations',
+    desc: "Design, développement, intégration IA. Chaque décision justifiée par la data et l'UX. Tests rigoureux.",
+  },
+  {
+    num: '3',
+    name: 'Livraison conforme à vos attentes',
+    desc: "Déploiement soigné, monitoring post-launch, itérations basées sur les comportements réels de vos utilisateurs.",
+  },
+]
+
+const FOUNDERS = [
+  {
+    initials: 'NC',
+    name: 'Noé Célarier',
+    bio: "Passionné par l'intersection du design et de la technologie, Noé pilote la vision créative de VOID. Il croit que la beauté et la performance sont indissociables.",
+  },
+  {
+    initials: 'AB',
+    name: 'Arthur Bugajski',
+    bio: "Architecte des solutions techniques de VOID, Arthur transforme les idées les plus ambitieuses en produits concrets. Son obsession : des systèmes robustes qui s'effacent derrière l'expérience.",
+  },
+  {
+    initials: 'MG',
+    name: 'Marwan Granert',
+    bio: "Expert en growth et acquisition digitale, Marwan connecte les projets VOID aux bonnes audiences. Sa mission : transformer chaque site en machine à générer des opportunités.",
+  },
+]
+
+const TECH_ROW_1 = ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'Node.js', 'Python', 'OpenAI', 'Vercel']
+const TECH_ROW_2 = ['Framer Motion', 'PostgreSQL', 'Supabase', 'Stripe', 'GitHub', 'Docker', 'Figma', 'GraphQL']
+
+const MARQUEE_ITEMS = [
+  'Sites Web Premium', 'Chatbots IA', 'Automatisation',
+  'Design Premium', 'Interfaces Intelligentes', 'Expériences Digitales',
+  'SEO & Performance', 'UX/UI Design',
+]
+
+function SectionLabel({ children, dark = false }: { children: React.ReactNode; dark?: boolean }) {
+  return (
+    <div className={`inline-flex items-center gap-3 text-[11px] font-semibold tracking-[0.2em] uppercase mb-5 ${dark ? 'text-primary' : 'text-primary'}`}>
+      <span className="block w-5 h-0.5 bg-primary shrink-0" />
       {children}
     </div>
   )
@@ -82,88 +164,91 @@ export default function Home() {
   }, [])
 
   return (
-    <main className="bg-void-black text-void-white font-sans overflow-x-hidden">
+    <main className="overflow-x-hidden">
 
       {/* ── NAV ── */}
-      <nav
-        className={`fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-8 md:px-12 py-6 transition-all duration-300 ${
-          scrolled ? 'bg-void-black/85 backdrop-blur-xl border-b border-grey-mid/60' : ''
-        }`}
-      >
-        <a href="#" className="font-display text-lg font-extrabold tracking-widest text-void-white">
+      <nav className={`fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-8 md:px-16 py-5 transition-all duration-300 ${
+        scrolled ? 'bg-dark/90 backdrop-blur-xl border-b border-dark-border' : 'bg-dark'
+      }`}>
+        <a href="#" className="font-display text-lg font-extrabold tracking-widest text-white">
           VOID
         </a>
         <ul className="hidden md:flex gap-8 list-none">
-          {['Services', 'À propos', 'Processus', 'Fondateurs'].map((item) => (
-            <li key={item}>
-              <a
-                href={`#${item.toLowerCase().replace(' ', '-').replace('à-propos', 'about').replace('processus', 'process').replace('fondateurs', 'founders')}`}
-                className="text-[11px] font-medium tracking-[0.14em] uppercase text-grey-text hover:text-void-white transition-colors"
-              >
-                {item}
+          {[
+            { label: 'Services', href: '#services' },
+            { label: 'À propos', href: '#about' },
+            { label: 'Processus', href: '#process' },
+            { label: 'Fondateurs', href: '#founders' },
+          ].map((item) => (
+            <li key={item.label}>
+              <a href={item.href} className="text-[12px] font-medium text-dark-muted hover:text-white transition-colors">
+                {item.label}
               </a>
             </li>
           ))}
         </ul>
         <a
           href="#contact"
-          className="text-[11px] font-semibold tracking-wider uppercase bg-accent text-void-black px-5 py-2.5 rounded-full hover:opacity-85 transition-opacity"
+          className="text-[12px] font-bold bg-primary text-white px-5 py-2.5 rounded-full hover:bg-primary-hover transition-colors"
         >
           Démarrer un projet
         </a>
       </nav>
 
       {/* ── HERO ── */}
-      <section className="min-h-screen bg-void-black relative overflow-hidden" id="home">
-        <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="white" />
+      <section className="bg-dark min-h-screen flex flex-col items-center justify-center text-center px-6 pt-20 relative overflow-hidden" id="home">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-primary/8 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute top-20 right-20 w-64 h-64 bg-primary/5 rounded-full blur-2xl pointer-events-none" />
 
-        <div className="flex h-screen">
-          {/* Left content */}
-          <div className="flex-1 px-8 md:px-12 flex flex-col justify-end pb-16 relative z-10">
-            <p className="text-[10px] font-medium tracking-[0.2em] uppercase text-accent mb-7">
-              Agence Web &amp; Intelligence Artificielle
-            </p>
-            <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-extrabold leading-[1.05] tracking-tight">
-              Sites qui<br />pensent.
-            </h1>
-            <p className="mt-6 text-sm leading-relaxed text-grey-text max-w-xs md:max-w-sm">
-              Nous concevons des expériences web sur mesure avec l&apos;IA intégrée au cœur — chatbots, automatisations, interfaces intelligentes.
-            </p>
-            <div className="flex justify-between items-end mt-10">
-              <div className="flex items-center gap-3.5 text-[10px] tracking-widest uppercase text-grey-text">
-                <div className="w-11 h-px bg-grey-text relative overflow-hidden">
-                  <div className="scroll-line" />
-                </div>
-                Scroll
-              </div>
-              <div className="text-[10px] tracking-[0.14em] uppercase text-grey-text text-right leading-loose">
-                Noé Célarier &amp; Arthur Bugajski<br />
-                Paris, France
-              </div>
-            </div>
+        <div className="relative z-10 max-w-4xl mx-auto">
+          <p className="text-[11px] font-semibold tracking-[0.22em] uppercase text-primary mb-8">
+            Agence Web &amp; Intelligence Artificielle
+          </p>
+          <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.05] tracking-tight text-white mb-6">
+            On développe votre<br />
+            <span className="text-primary">présence digitale</span>
+          </h1>
+          <p className="text-base md:text-lg text-dark-muted max-w-xl mx-auto mb-10 leading-relaxed">
+            Faites l&apos;expérience d&apos;une agence digitale unique où créativité et technologie se rencontrent. Votre vision, transformée en réalité numérique.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+            <a
+              href="#services"
+              className="text-[12px] font-bold border border-white/25 text-white px-7 py-3.5 rounded-full hover:border-white/60 transition-colors"
+            >
+              Découvrir nos services
+            </a>
+            <a
+              href="#contact"
+              className="text-[12px] font-bold bg-primary text-white px-7 py-3.5 rounded-full hover:bg-primary-hover transition-colors"
+            >
+              Démarrer un projet
+            </a>
           </div>
-
-          {/* Right — Spline 3D */}
-          <div className="flex-1 relative hidden md:block">
-            <SplineScene
-              scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
-              className="w-full h-full"
-            />
+          <div className="flex items-center justify-center gap-3">
+            <div className="flex gap-0.5">
+              {[1, 2, 3, 4, 5].map((i) => (
+                <StarIcon key={i} className="w-4 h-4 text-yellow-400" />
+              ))}
+            </div>
+            <span className="text-[12px] text-dark-muted">
+              <strong className="text-white">5/5</strong> — Agence de confiance · Paris, France
+            </span>
           </div>
         </div>
       </section>
 
       {/* ── MARQUEE ── */}
-      <div className="border-y border-grey-mid py-4 overflow-hidden bg-grey">
+      <div className="bg-dark border-y border-dark-border py-4 overflow-hidden">
         <div className="flex animate-marquee whitespace-nowrap">
           {[0, 1].map((set) => (
             <div key={set} className="flex shrink-0">
               {MARQUEE_ITEMS.map((item, i) => (
                 <span key={i} className="flex items-center">
-                  <span className="font-display text-[11px] font-bold tracking-[0.22em] uppercase text-grey-text px-10">
+                  <span className="text-[11px] font-semibold tracking-[0.2em] uppercase text-dark-muted px-10">
                     {item}
                   </span>
-                  <span className="text-accent text-xs">✦</span>
+                  <span className="text-primary text-xs">✦</span>
                 </span>
               ))}
             </div>
@@ -172,152 +257,189 @@ export default function Home() {
       </div>
 
       {/* ── SERVICES ── */}
-      <section className="px-8 md:px-12 py-28" id="services">
-        <SectionLabel>Services</SectionLabel>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-0.5">
-          {SERVICES.map((s, i) => (
-            <div
-              key={i}
-              className="bg-grey hover:bg-grey-mid p-10 md:p-12 relative group transition-colors cursor-default"
-            >
-              <div className="font-display text-[10px] font-bold tracking-[0.2em] text-accent mb-9">
-                {s.num}
-              </div>
-              <h3 className="font-display text-2xl md:text-3xl font-extrabold leading-tight mb-4">
-                {s.title.split('\n').map((line, j) => (
-                  <span key={j}>{line}{j === 0 && <br />}</span>
-                ))}
-              </h3>
-              <p className="text-sm leading-relaxed text-grey-text max-w-xs">{s.desc}</p>
-              <div className="absolute bottom-10 right-10 w-10 h-10 border border-grey-mid rounded-full flex items-center justify-center group-hover:border-accent group-hover:bg-accent transition-all">
-                <ArrowIcon className="w-3.5 h-3.5 stroke-grey-text group-hover:stroke-void-black transition-colors" />
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ── ABOUT ── */}
-      <section
-        className="px-8 md:px-12 py-28 grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 items-center border-t border-grey-mid"
-        id="about"
-      >
-        <div>
-          <SectionLabel>À propos</SectionLabel>
-          <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-extrabold leading-tight tracking-tight">
-            Le web<br />de demain,<br /><span className="text-accent">aujourd&apos;hui.</span>
-          </h2>
-          <div className="flex gap-10 mt-10">
-            {[
-              { num: '100%', label: 'Sur mesure' },
-              { num: 'IA', label: 'Intégrée' },
-              { num: '0', label: 'Template' },
-            ].map((stat) => (
-              <div key={stat.label} className="flex flex-col gap-1.5">
-                <span className="font-display text-4xl font-extrabold tracking-tight leading-none">
-                  {stat.num}
-                </span>
-                <span className="text-[10px] tracking-[0.16em] uppercase text-grey-text">
-                  {stat.label}
-                </span>
+      <section className="bg-light px-8 md:px-16 py-28" id="services">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex flex-col items-center text-center mb-16">
+            <SectionLabel>Services</SectionLabel>
+            <h2 className="font-display text-3xl md:text-5xl font-extrabold text-ink leading-tight">
+              Nos expertises pour votre<br />succès digital
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {SERVICES.map((s, i) => (
+              <div key={i} className="bg-light-card rounded-2xl p-8 border border-light-border hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 group">
+                <div className="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-5">
+                  <s.Icon />
+                </div>
+                <h3 className="font-display text-lg font-extrabold text-ink mb-3">{s.title}</h3>
+                <p className="text-sm text-light-muted leading-relaxed mb-5">{s.desc}</p>
+                <a href="#contact" className="text-[12px] font-semibold text-primary hover:underline">
+                  En savoir plus →
+                </a>
               </div>
             ))}
           </div>
         </div>
-        <div className="space-y-5">
-          <p className="text-sm leading-relaxed text-grey-text">
-            VOID est une agence fondée sur une conviction simple : chaque entreprise mérite un site à la hauteur de ses ambitions. Pas un template, pas une solution générique — une expérience digitale pensée de A à Z.
-          </p>
-          <p className="text-sm leading-relaxed text-grey-text">
-            Nous intégrons l&apos;intelligence artificielle non pas comme un gadget, mais comme un levier de croissance réel. Chatbots conversationnels, recommandations personnalisées, automatisation des processus — l&apos;IA devient votre atout business.
-          </p>
-          <p className="text-sm leading-relaxed text-grey-text">
-            Notre approche : comprendre votre marché, challenger vos idées, livrer un produit qui surpasse vos attentes.
-          </p>
+      </section>
+
+      {/* ── ABOUT ── */}
+      <section className="bg-light-card px-8 md:px-16 py-28 border-t border-light-border" id="about">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+          <div>
+            <SectionLabel>Agence Digitale Créative</SectionLabel>
+            <h2 className="font-display text-3xl md:text-4xl font-extrabold text-ink leading-tight mb-6">
+              Nous avons réalisé des projets ambitieux
+            </h2>
+            <p className="text-sm text-light-muted leading-relaxed mb-4">
+              VOID est une agence fondée sur une conviction simple : chaque entreprise mérite un site à la hauteur de ses ambitions. Pas un template, pas une solution générique — une expérience digitale pensée de A à Z.
+            </p>
+            <p className="text-sm text-light-muted leading-relaxed mb-8">
+              Nous intégrons l&apos;intelligence artificielle non pas comme un gadget, mais comme un levier de croissance réel. Notre approche : comprendre votre marché, challenger vos idées, livrer un produit qui surpasse vos attentes.
+            </p>
+            <a
+              href="#contact"
+              className="inline-block text-[12px] font-bold bg-primary text-white px-7 py-3.5 rounded-full hover:bg-primary-hover transition-colors"
+            >
+              Contactez-nous
+            </a>
+          </div>
+          {/* Tech stack scrolling rows */}
+          <div className="space-y-3 overflow-hidden select-none">
+            <div className="flex gap-3 animate-marquee whitespace-nowrap">
+              {[...TECH_ROW_1, ...TECH_ROW_1].map((tech, i) => (
+                <span key={i} className="shrink-0 px-4 py-2 bg-light rounded-lg text-[12px] font-medium text-light-muted border border-light-border">
+                  {tech}
+                </span>
+              ))}
+            </div>
+            <div className="flex gap-3 whitespace-nowrap" style={{ animation: 'marquee 38s linear infinite reverse' }}>
+              {[...TECH_ROW_2, ...TECH_ROW_2].map((tech, i) => (
+                <span key={i} className="shrink-0 px-4 py-2 bg-light rounded-lg text-[12px] font-medium text-light-muted border border-light-border">
+                  {tech}
+                </span>
+              ))}
+            </div>
+            <div className="flex gap-3 animate-marquee-slow whitespace-nowrap">
+              {[...TECH_ROW_1.slice(4), ...TECH_ROW_2.slice(4), ...TECH_ROW_1.slice(4), ...TECH_ROW_2.slice(4)].map((tech, i) => (
+                <span key={i} className="shrink-0 px-4 py-2 bg-light rounded-lg text-[12px] font-medium text-light-muted border border-light-border">
+                  {tech}
+                </span>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
       {/* ── PROCESS ── */}
-      <section className="px-8 md:px-12 py-28 border-t border-grey-mid" id="process">
-        <SectionLabel>Processus</SectionLabel>
-        <div className="flex flex-col mt-4">
-          {PROCESS.map((step, i) => (
-            <div
-              key={i}
-              className={`grid grid-cols-[48px_1fr] md:grid-cols-[64px_1fr_1fr] gap-8 md:gap-12 py-8 border-b border-grey-mid ${
-                i === 0 ? 'border-t border-grey-mid' : ''
-              }`}
-            >
-              <div className="font-display text-[11px] font-bold tracking-[0.14em] text-accent pt-1">
-                {step.num}
-              </div>
-              <div className="font-display text-xl md:text-2xl font-extrabold">{step.name}</div>
-              <p className="text-sm leading-relaxed text-grey-text col-start-2 md:col-start-3 md:col-auto">
-                {step.desc}
-              </p>
+      <section className="bg-dark px-8 md:px-16 py-28" id="process">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+          {/* Left: abstract visual */}
+          <div className="relative rounded-2xl overflow-hidden aspect-[4/3] bg-dark-card border border-dark-border">
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/15 via-transparent to-transparent" />
+            <div className="absolute inset-0 p-8 grid grid-cols-3 gap-3 opacity-40">
+              {Array.from({ length: 6 }).map((_, i) => (
+                <div key={i} className={`border border-dark-border rounded-lg ${i % 3 === 0 ? 'col-span-2' : ''}`} />
+              ))}
+              {Array.from({ length: 3 }).map((_, i) => (
+                <div key={i} className="border border-dark-border rounded-lg" />
+              ))}
             </div>
-          ))}
+            <div className="absolute bottom-8 left-8 right-8">
+              <div className="h-2 bg-dark-border rounded-full mb-2 w-3/4" />
+              <div className="h-2 bg-dark-border rounded-full mb-2 w-1/2" />
+              <div className="h-2 bg-primary/40 rounded-full w-2/3" />
+            </div>
+          </div>
+
+          {/* Right: steps */}
+          <div>
+            <SectionLabel dark>Notre Processus de Création</SectionLabel>
+            <h2 className="font-display text-3xl md:text-4xl font-extrabold text-white leading-tight mb-4">
+              Votre site web, en seulement quelques étapes
+            </h2>
+            <p className="text-sm text-dark-muted mb-10 leading-relaxed">
+              Sollicitez notre expertise pour obtenir un devis sur mesure, entièrement adapté à vos attentes et sans engagement.
+            </p>
+            <div className="bg-dark-card border border-dark-border rounded-2xl p-6">
+              {PROCESS.map((step, i) => (
+                <div key={i} className="flex gap-4 items-start relative">
+                  {i < PROCESS.length - 1 && (
+                    <div className="absolute left-5 top-10 w-px h-10 bg-dark-border z-0" />
+                  )}
+                  <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 font-bold text-sm z-10 ${
+                    i < PROCESS.length - 1
+                      ? 'bg-primary text-white'
+                      : 'border-2 border-dark-border text-dark-muted'
+                  }`}>
+                    {step.num}
+                  </div>
+                  <div className={i < PROCESS.length - 1 ? 'pb-9' : ''}>
+                    <a href="#contact" className="font-display font-bold text-white text-base mb-1 hover:text-primary transition-colors block">
+                      {step.name}
+                    </a>
+                    <p className="text-sm text-dark-muted leading-relaxed">{step.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
       {/* ── FOUNDERS ── */}
-      <section className="px-8 md:px-12 py-28 border-t border-grey-mid" id="founders">
-        <SectionLabel>Fondateurs</SectionLabel>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-0.5 mt-4">
-          {[
-            {
-              initials: 'NC',
-              name: 'Noé Célarier',
-              bio: "Passionné par l'intersection du design et de la technologie, Noé pilote la vision créative de VOID. Il croit que la beauté et la performance ne sont pas incompatibles — elles sont indissociables.",
-            },
-            {
-              initials: 'AB',
-              name: 'Arthur Bugajski',
-              bio: "Architecte des solutions techniques de VOID, Arthur transforme les idées les plus ambitieuses en produits concrets. Son obsession : des systèmes robustes qui s'effacent derrière l'expérience utilisateur.",
-            },
-          ].map((founder) => (
-            <div key={founder.name} className="bg-grey p-12 md:p-14">
-              <div className="w-16 h-16 rounded-full bg-grey-mid border border-grey-mid flex items-center justify-center font-display text-lg font-extrabold text-accent mb-8">
-                {founder.initials}
+      <section className="bg-light px-8 md:px-16 py-28" id="founders">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex flex-col items-center text-center mb-16">
+            <SectionLabel>Fondateurs</SectionLabel>
+            <h2 className="font-display text-3xl md:text-4xl font-extrabold text-ink">
+              L&apos;équipe derrière VOID
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {FOUNDERS.map((f) => (
+              <div key={f.name} className="bg-light-card rounded-2xl p-8 border border-light-border hover:shadow-md transition-shadow">
+                <div className="w-16 h-16 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center font-display text-lg font-extrabold text-primary mb-6">
+                  {f.initials}
+                </div>
+                <h3 className="font-display text-xl font-extrabold text-ink mb-1">{f.name}</h3>
+                <div className="text-[11px] tracking-[0.16em] uppercase text-primary font-semibold mb-4">
+                  Co-fondateur
+                </div>
+                <p className="text-sm text-light-muted leading-relaxed">{f.bio}</p>
               </div>
-              <h3 className="font-display text-2xl md:text-3xl font-extrabold mb-1.5">{founder.name}</h3>
-              <div className="text-[10px] tracking-[0.18em] uppercase text-accent mb-6">Co-fondateur</div>
-              <p className="text-sm leading-relaxed text-grey-text max-w-sm">{founder.bio}</p>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
 
       {/* ── CTA ── */}
       <section
-        className="px-8 md:px-12 py-28 border-t border-grey-mid flex flex-col items-center text-center"
+        className="px-8 md:px-16 py-28 flex flex-col items-center text-center"
         id="contact"
+        style={{ background: 'linear-gradient(135deg, #3b0764 0%, #7c3aed 50%, #4c1d95 100%)' }}
       >
-        <p className="text-[10px] font-medium tracking-[0.22em] uppercase text-accent mb-10">
+        <p className="text-[11px] font-semibold tracking-[0.22em] uppercase text-white/60 mb-8">
           Démarrons ensemble
         </p>
-        <h2 className="font-display text-4xl md:text-6xl lg:text-7xl font-extrabold leading-[1] tracking-tight max-w-3xl mb-14">
-          Votre prochain site<br />
-          <span
-            className="text-transparent"
-            style={{ WebkitTextStroke: '1px #f2f0eb' }}
-          >
-            commence ici.
-          </span>
+        <h2 className="font-display text-4xl md:text-6xl font-extrabold text-white leading-[1.05] tracking-tight max-w-3xl mb-6">
+          Votre prochain site<br />commence ici.
         </h2>
+        <p className="text-base text-white/65 max-w-md mb-10 leading-relaxed">
+          Prenez contact dès aujourd&apos;hui pour un devis gratuit et sans engagement.
+        </p>
         <a
           href="mailto:hello@void.agency"
-          className="inline-flex items-center gap-3.5 bg-accent text-void-black text-[11px] font-bold tracking-[0.12em] uppercase px-8 py-4 rounded-full hover:opacity-88 hover:-translate-y-0.5 transition-all"
+          className="inline-flex items-center gap-3 bg-white text-primary text-[12px] font-bold tracking-wide px-8 py-4 rounded-full hover:opacity-90 transition-opacity"
         >
           Prendre contact
-          <ArrowIcon className="w-4 h-4 stroke-void-black" />
+          <ArrowIcon className="w-4 h-4" />
         </a>
       </section>
 
       {/* ── FOOTER ── */}
-      <footer className="border-t border-grey-mid px-8 md:px-12 py-10 flex flex-col md:flex-row justify-between items-center gap-6 text-center">
-        <div className="font-display text-base font-extrabold tracking-widest">VOID</div>
-        <p className="text-[11px] text-grey-text tracking-wider">© 2026 VOID. Tous droits réservés.</p>
+      <footer className="bg-dark border-t border-dark-border px-8 md:px-16 py-10 flex flex-col md:flex-row justify-between items-center gap-6">
+        <div className="font-display text-base font-extrabold tracking-widest text-white">VOID</div>
+        <p className="text-[11px] text-dark-muted">© 2026 VOID. Tous droits réservés.</p>
         <ul className="flex gap-8 list-none">
           {[
             { label: 'Contact', href: 'mailto:hello@void.agency' },
@@ -325,10 +447,7 @@ export default function Home() {
             { label: 'Équipe', href: '#founders' },
           ].map((link) => (
             <li key={link.label}>
-              <a
-                href={link.href}
-                className="text-[11px] text-grey-text uppercase tracking-wider hover:text-void-white transition-colors"
-              >
+              <a href={link.href} className="text-[11px] text-dark-muted uppercase tracking-wider hover:text-white transition-colors">
                 {link.label}
               </a>
             </li>
