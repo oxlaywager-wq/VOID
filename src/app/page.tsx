@@ -1,7 +1,24 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
+import { motion, useInView } from 'framer-motion'
 import { Hero } from '@/components/ui/animated-hero'
+
+function FadeIn({ children, className, delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
+  const ref = useRef(null)
+  const inView = useInView(ref, { once: true, margin: '-80px' })
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 28 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  )
+}
 
 function ArrowIcon({ className }: { className?: string }) {
   return (
@@ -260,15 +277,16 @@ export default function Home() {
       {/* ── SERVICES ── */}
       <section className="bg-light px-8 md:px-16 py-28" id="services">
         <div className="max-w-6xl mx-auto">
-          <div className="flex flex-col items-center text-center mb-16">
+          <FadeIn className="flex flex-col items-center text-center mb-16">
             <SectionLabel>Services</SectionLabel>
             <h2 className="font-display text-3xl md:text-5xl font-extrabold text-ink leading-tight">
               Nos expertises pour votre<br />succès digital
             </h2>
-          </div>
+          </FadeIn>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {SERVICES.map((s, i) => (
-              <div key={i} className="bg-light-card rounded-2xl p-8 border border-light-border hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 group">
+              <FadeIn key={i} delay={i * 0.07}>
+              <div className="bg-light-card rounded-2xl p-8 border border-light-border hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 group h-full">
                 <div className="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-5">
                   <s.Icon />
                 </div>
@@ -278,6 +296,7 @@ export default function Home() {
                   En savoir plus →
                 </a>
               </div>
+              </FadeIn>
             ))}
           </div>
         </div>
@@ -286,7 +305,7 @@ export default function Home() {
       {/* ── PORTFOLIO ── */}
       <section className="bg-white px-8 md:px-16 py-28 border-t border-light-border" id="portfolio">
         <div className="max-w-6xl mx-auto">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+          <FadeIn className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
             <div>
               <SectionLabel>Réalisations</SectionLabel>
               <h2 className="font-display text-3xl md:text-5xl font-extrabold text-ink leading-tight">
@@ -296,12 +315,12 @@ export default function Home() {
             <a href="#contact" className="text-[12px] font-bold text-primary hover:underline shrink-0">
               Démarrer votre projet →
             </a>
-          </div>
+          </FadeIn>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {PROJECTS.map((p, i) => (
+              <FadeIn key={i} delay={i * 0.1}>
               <div
-                key={i}
                 className="group relative rounded-2xl overflow-hidden border border-light-border hover:border-primary/40 hover:shadow-xl transition-all duration-300 cursor-pointer"
                 onClick={() => p.href !== '#' && setActiveProject(p)}
               >
@@ -335,6 +354,7 @@ export default function Home() {
                   <p className="text-sm text-light-muted leading-relaxed">{p.desc}</p>
                 </div>
               </div>
+              </FadeIn>
             ))}
           </div>
         </div>
