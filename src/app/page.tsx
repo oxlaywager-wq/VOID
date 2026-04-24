@@ -237,6 +237,19 @@ function SectionLabel({ children, dark = false }: { children: React.ReactNode; d
   )
 }
 
+function FounderImg({ src, alt, initials }: { src: string; alt: string; initials: string }) {
+  const [failed, setFailed] = useState(false)
+  if (failed) return <span className="font-display text-xl font-extrabold text-primary">{initials}</span>
+  return (
+    <img
+      src={src}
+      alt={alt}
+      className="w-full h-full object-cover object-top"
+      onError={() => setFailed(true)}
+    />
+  )
+}
+
 function TypingURL() {
   const url = 'void.agency'
   const [displayed, setDisplayed] = useState('')
@@ -792,14 +805,14 @@ export default function Home() {
                 transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
               >
                 <motion.div
-                  className="w-20 h-20 rounded-full overflow-hidden border-2 border-primary/20 mb-6 flex items-center justify-center bg-primary/10"
+                  className="w-24 h-24 rounded-full overflow-hidden border-2 border-primary/20 mb-6 flex items-center justify-center bg-primary/10 shrink-0"
                   animate={{ boxShadow: ['0 0 0px #7c3aed00', '0 0 20px #7c3aed33', '0 0 0px #7c3aed00'] }}
                   transition={{ duration: 3.5, repeat: Infinity, delay: i * 0.8 }}
                 >
                   {f.image ? (
-                    <img src={f.image} alt={f.name} className="w-full h-full object-cover object-top" />
+                    <FounderImg src={f.image} alt={f.name} initials={f.initials} />
                   ) : (
-                    <span className="font-display text-lg font-extrabold text-primary">{f.initials}</span>
+                    <span className="font-display text-xl font-extrabold text-primary">{f.initials}</span>
                   )}
                 </motion.div>
                 <h3 className="font-display text-xl font-extrabold text-ink mb-1">{f.name}</h3>

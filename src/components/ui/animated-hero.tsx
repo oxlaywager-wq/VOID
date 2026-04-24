@@ -3,14 +3,8 @@
 import { useEffect, useMemo, useState } from "react"
 import { motion } from "framer-motion"
 import { MoveRight, PhoneCall } from "lucide-react"
-import dynamic from "next/dynamic"
 import { Button } from "@/components/ui/button"
 import { StarField } from "@/components/ui/star-field"
-
-const Astronaut3D = dynamic(
-  () => import("@/components/ui/astronaut-3d").then((m) => ({ default: m.Astronaut3D })),
-  { ssr: false }
-)
 
 function Hero() {
   const [titleNumber, setTitleNumber] = useState(0)
@@ -31,9 +25,6 @@ function Hero() {
 
       {/* Star field canvas */}
       <StarField className="absolute inset-0 w-full h-full" />
-
-      {/* 3D Astronaut */}
-      <Astronaut3D />
 
       {/* Purple nebula glow */}
       <div className="absolute inset-0 pointer-events-none">
