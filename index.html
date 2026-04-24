@@ -433,6 +433,17 @@
       font-weight: 800;
       color: var(--accent);
       border: 1px solid var(--grey-mid);
+      position: relative;
+      overflow: hidden;
+    }
+    .founder-card__avatar img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      border-radius: 50%;
     }
     .founder-card__name {
       font-family: var(--font-display);
@@ -734,13 +745,19 @@
     <div class="section-label">Fondateurs</div>
     <div class="founders__grid">
       <div class="founder-card">
-        <div class="founder-card__avatar">NC</div>
+        <div class="founder-card__avatar">
+          NC
+          <img src="founders/noe.jpg" alt="Noé Célarier" onerror="this.style.display='none'">
+        </div>
         <h3 class="founder-card__name">Noé Célarier</h3>
         <div class="founder-card__role">Co-fondateur</div>
         <p class="founder-card__bio">Passionné par l'intersection du design et de la technologie, Noé pilote la vision créative de VOID. Il croit que la beauté et la performance ne sont pas incompatibles — elles sont indissociables.</p>
       </div>
       <div class="founder-card">
-        <div class="founder-card__avatar">AB</div>
+        <div class="founder-card__avatar">
+          AB
+          <img src="founders/arthur.jpg" alt="Arthur Bugajski" onerror="this.style.display='none'">
+        </div>
         <h3 class="founder-card__name">Arthur Bugajski</h3>
         <div class="founder-card__role">Co-fondateur</div>
         <p class="founder-card__bio">Architecte des solutions techniques de VOID, Arthur transforme les idées les plus ambitieuses en produits concrets. Son obsession : des systèmes robustes qui s'effacent derrière l'expérience utilisateur.</p>
