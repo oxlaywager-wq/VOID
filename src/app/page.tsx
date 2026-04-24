@@ -219,9 +219,16 @@ const MARQUEE_ITEMS = [
 ]
 
 function SectionLabel({ children, dark = false }: { children: React.ReactNode; dark?: boolean }) {
+  const ref = useRef(null)
+  const inView = useInView(ref, { once: true, margin: '-60px' })
   return (
-    <div className={`inline-flex items-center gap-3 text-[11px] font-semibold tracking-[0.2em] uppercase mb-5 ${dark ? 'text-primary' : 'text-primary'}`}>
-      <span className="block w-5 h-0.5 bg-primary shrink-0" />
+    <div ref={ref} className={`inline-flex items-center gap-3 text-[11px] font-semibold tracking-[0.2em] uppercase mb-5 ${dark ? 'text-primary' : 'text-primary'}`}>
+      <motion.span
+        className="block h-0.5 bg-primary shrink-0"
+        initial={{ width: 0 }}
+        animate={inView ? { width: 20 } : { width: 0 }}
+        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      />
       {children}
     </div>
   )
@@ -340,16 +347,36 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {SERVICES.map((s, i) => (
               <FadeIn key={i} delay={i * 0.07}>
-              <div className="bg-light-card rounded-2xl p-8 border border-light-border hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 group h-full">
-                <div className="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-5">
+              <motion.div
+                className="bg-light-card rounded-2xl p-8 border border-light-border hover:border-primary/30 transition-colors duration-300 group h-full relative overflow-hidden"
+                whileHover={{ y: -8, boxShadow: '0 24px 48px rgba(124,58,237,0.10)' }}
+                transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+              >
+                {/* Hover shimmer line */}
+                <motion.div
+                  className="absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-primary to-violet-400"
+                  initial={{ width: 0 }}
+                  whileHover={{ width: '100%' }}
+                  transition={{ duration: 0.4 }}
+                />
+                <motion.div
+                  className="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-5"
+                  whileHover={{ scale: 1.15, backgroundColor: 'rgba(124,58,237,0.18)' }}
+                  transition={{ duration: 0.25 }}
+                >
                   <s.Icon />
-                </div>
+                </motion.div>
                 <h3 className="font-display text-lg font-extrabold text-ink mb-3">{s.title}</h3>
                 <p className="text-sm text-light-muted leading-relaxed mb-5">{s.desc}</p>
-                <a href="#contact" className="text-[12px] font-semibold text-primary hover:underline">
-                  En savoir plus →
-                </a>
-              </div>
+                <motion.a
+                  href="#contact"
+                  className="text-[12px] font-semibold text-primary inline-flex items-center gap-1"
+                  whileHover={{ x: 4 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  En savoir plus <ArrowIcon className="w-3 h-3 stroke-primary" />
+                </motion.a>
+              </motion.div>
               </FadeIn>
             ))}
           </div>
@@ -375,16 +402,28 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {PROJECTS.map((p, i) => (
               <FadeIn key={i} delay={i * 0.1}>
-              <div
-                className="group relative rounded-2xl overflow-hidden border border-light-border hover:border-primary/40 hover:shadow-xl transition-all duration-300 cursor-pointer"
+              <motion.div
+                className="group relative rounded-2xl overflow-hidden border border-light-border cursor-pointer"
+                whileHover={{ y: -6, boxShadow: '0 28px 56px rgba(124,58,237,0.13)', borderColor: 'rgba(124,58,237,0.35)' }}
+                transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                 onClick={() => p.href !== '#' && setActiveProject(p)}
               >
                 <div className={`w-full aspect-[16/9] bg-gradient-to-br ${p.color} flex items-center justify-center relative overflow-hidden`}>
                   {p.image ? (
-                    <img src={p.image} alt={p.name} className="w-full h-full object-cover" />
+                    <motion.img
+                      src={p.image}
+                      alt={p.name}
+                      className="w-full h-full object-cover"
+                      whileHover={{ scale: 1.04 }}
+                      transition={{ duration: 0.5 }}
+                    />
                   ) : (
                     <div className="flex flex-col items-center gap-3 opacity-40">
-                      <div className="w-16 h-12 border-2 border-primary rounded-lg" />
+                      <motion.div
+                        className="w-16 h-12 border-2 border-primary rounded-lg"
+                        animate={{ opacity: [0.4, 0.8, 0.4] }}
+                        transition={{ duration: 2.5, repeat: Infinity }}
+                      />
                       <div className="text-[11px] font-semibold tracking-widest uppercase text-primary">
                         Aperçu disponible
                       </div>
@@ -392,11 +431,20 @@ export default function Home() {
                   )}
                   {/* Hover overlay */}
                   {p.href !== '#' && (
-                    <div className="absolute inset-0 bg-ink/0 group-hover:bg-ink/40 transition-all duration-300 flex items-center justify-center">
-                      <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white text-ink text-[12px] font-bold px-5 py-2.5 rounded-full flex items-center gap-2">
+                    <motion.div
+                      className="absolute inset-0 bg-ink/0 flex items-center justify-center"
+                      whileHover={{ backgroundColor: 'rgba(15,15,26,0.45)' }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <motion.span
+                        className="bg-white text-ink text-[12px] font-bold px-5 py-2.5 rounded-full flex items-center gap-2"
+                        initial={{ opacity: 0, y: 8 }}
+                        whileHover={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.25 }}
+                      >
                         Voir en direct <ArrowIcon className="w-3.5 h-3.5 stroke-ink" />
-                      </span>
-                    </div>
+                      </motion.span>
+                    </motion.div>
                   )}
                 </div>
                 <div className="p-6 bg-white">
@@ -408,7 +456,7 @@ export default function Home() {
                   </div>
                   <p className="text-sm text-light-muted leading-relaxed">{p.desc}</p>
                 </div>
-              </div>
+              </motion.div>
               </FadeIn>
             ))}
           </div>
@@ -592,24 +640,41 @@ export default function Home() {
             </p>
             <div className="bg-light border border-light-border rounded-2xl p-6">
               {PROCESS.map((step, i) => (
-                <div key={i} className="flex gap-4 items-start relative">
+                <FadeIn key={i} delay={i * 0.15}>
+                <div className="flex gap-4 items-start relative">
                   {i < PROCESS.length - 1 && (
-                    <div className="absolute left-5 top-10 w-px h-10 bg-light-border z-0" />
+                    <motion.div
+                      className="absolute left-5 top-10 w-px bg-primary/30 z-0"
+                      initial={{ height: 0 }}
+                      whileInView={{ height: 40 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.6, delay: 0.4 + i * 0.2 }}
+                    />
                   )}
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 font-bold text-sm z-10 ${
-                    i < PROCESS.length - 1
-                      ? 'bg-primary text-white'
-                      : 'border-2 border-light-border text-light-muted'
-                  }`}>
+                  <motion.div
+                    className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 font-bold text-sm z-10 ${
+                      i < PROCESS.length - 1
+                        ? 'bg-primary text-white'
+                        : 'border-2 border-light-border text-light-muted'
+                    }`}
+                    whileHover={{ scale: 1.15 }}
+                    transition={{ duration: 0.2 }}
+                  >
                     {step.num}
-                  </div>
+                  </motion.div>
                   <div className={i < PROCESS.length - 1 ? 'pb-9' : ''}>
-                    <a href="#contact" className="font-display font-bold text-ink text-base mb-1 hover:text-primary transition-colors block">
+                    <motion.a
+                      href="#contact"
+                      className="font-display font-bold text-ink text-base mb-1 hover:text-primary transition-colors block"
+                      whileHover={{ x: 4 }}
+                      transition={{ duration: 0.2 }}
+                    >
                       {step.name}
-                    </a>
+                    </motion.a>
                     <p className="text-sm text-light-muted leading-relaxed">{step.desc}</p>
                   </div>
                 </div>
+                </FadeIn>
               ))}
             </div>
           </div>
