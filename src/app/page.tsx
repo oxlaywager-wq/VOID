@@ -238,26 +238,9 @@ function SectionLabel({ children, dark = false }: { children: React.ReactNode; d
 }
 
 function FounderImg({ src, alt, initials }: { src: string; alt: string; initials: string }) {
-  const base = src.replace(/\.[^.]+$/, '')
-  const formats = [src, `${base}.png`, `${base}.jpeg`, `${base}.webp`]
-  const [idx, setIdx] = useState(0)
-  const [failed, setFailed] = useState(false)
-
-  const tryNext = () => {
-    if (idx + 1 < formats.length) setIdx(idx + 1)
-    else setFailed(true)
-  }
-
-  if (failed) return <span className="font-display text-xl font-extrabold text-primary">{initials}</span>
-  return (
-    <img
-      key={formats[idx]}
-      src={formats[idx]}
-      alt={alt}
-      className="w-full h-full object-cover object-top"
-      onError={tryNext}
-    />
-  )
+  const [error, setError] = useState(false)
+  if (error) return <span className="font-display text-xl font-extrabold text-primary">{initials}</span>
+  return <img src={src} alt={alt} className="w-full h-full object-cover object-top" onError={() => setError(true)} />
 }
 
 function TypingURL() {
