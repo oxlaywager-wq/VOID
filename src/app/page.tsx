@@ -153,13 +153,13 @@ const FOUNDERS = [
   {
     initials: 'NC',
     name: 'Noé Célarier',
-    image: '/founders/noe.jpg',
+    image: '/noe.jpg',
     bio: "Passionné par l'intersection du design et de la technologie, Noé pilote la vision créative de VOID. Il croit que la beauté et la performance sont indissociables.",
   },
   {
     initials: 'AB',
     name: 'Arthur Bugajski',
-    image: '/founders/arthur.jpg',
+    image: '/arthur.jpg',
     bio: "Architecte des solutions techniques de VOID, Arthur transforme les idées les plus ambitieuses en produits concrets. Son obsession : des systèmes robustes qui s'effacent derrière l'expérience.",
   },
   {
