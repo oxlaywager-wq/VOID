@@ -153,16 +153,19 @@ const FOUNDERS = [
   {
     initials: 'NC',
     name: 'Noé Célarier',
+    image: '/founders/noe.jpg',
     bio: "Passionné par l'intersection du design et de la technologie, Noé pilote la vision créative de VOID. Il croit que la beauté et la performance sont indissociables.",
   },
   {
     initials: 'AB',
     name: 'Arthur Bugajski',
+    image: '/founders/arthur.jpg',
     bio: "Architecte des solutions techniques de VOID, Arthur transforme les idées les plus ambitieuses en produits concrets. Son obsession : des systèmes robustes qui s'effacent derrière l'expérience.",
   },
   {
     initials: 'MG',
     name: 'Marwan Granert',
+    image: null,
     bio: "Expert en growth et acquisition digitale, Marwan connecte les projets VOID aux bonnes audiences. Sa mission : transformer chaque site en machine à générer des opportunités.",
   },
 ]
@@ -700,11 +703,15 @@ export default function Home() {
                 transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
               >
                 <motion.div
-                  className="w-16 h-16 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center font-display text-lg font-extrabold text-primary mb-6"
-                  animate={{ boxShadow: ['0 0 0px #7c3aed00', '0 0 18px #7c3aed33', '0 0 0px #7c3aed00'] }}
+                  className="w-20 h-20 rounded-full overflow-hidden border-2 border-primary/20 mb-6 flex items-center justify-center bg-primary/10"
+                  animate={{ boxShadow: ['0 0 0px #7c3aed00', '0 0 20px #7c3aed33', '0 0 0px #7c3aed00'] }}
                   transition={{ duration: 3.5, repeat: Infinity, delay: i * 0.8 }}
                 >
-                  {f.initials}
+                  {f.image ? (
+                    <img src={f.image} alt={f.name} className="w-full h-full object-cover object-top" />
+                  ) : (
+                    <span className="font-display text-lg font-extrabold text-primary">{f.initials}</span>
+                  )}
                 </motion.div>
                 <h3 className="font-display text-xl font-extrabold text-ink mb-1">{f.name}</h3>
                 <div className="text-[11px] tracking-[0.16em] uppercase text-primary font-semibold mb-4">
