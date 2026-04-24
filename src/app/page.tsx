@@ -1,9 +1,10 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { motion, useInView } from 'framer-motion'
+import { motion, useInView, useMotionValue, useSpring } from 'framer-motion'
 import { Hero } from '@/components/ui/animated-hero'
 import { ContainerScroll } from '@/components/ui/container-scroll-animation'
+import { AnimatedBg } from '@/components/ui/animated-bg'
 
 function FadeIn({ children, className, delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
   const ref = useRef(null)
@@ -19,6 +20,24 @@ function FadeIn({ children, className, delay = 0 }: { children: React.ReactNode;
       {children}
     </motion.div>
   )
+}
+
+function CountUp({ target, suffix = '' }: { target: number; suffix?: string }) {
+  const ref = useRef(null)
+  const inView = useInView(ref, { once: true, margin: '-60px' })
+  const [count, setCount] = useState(0)
+  useEffect(() => {
+    if (!inView) return
+    let frame = 0
+    const total = 60
+    const timer = setInterval(() => {
+      frame++
+      setCount(Math.round((frame / total) * target))
+      if (frame >= total) clearInterval(timer)
+    }, 20)
+    return () => clearInterval(timer)
+  }, [inView, target])
+  return <span ref={ref}>{count}{suffix}</span>
 }
 
 function ArrowIcon({ className }: { className?: string }) {
@@ -183,6 +202,13 @@ const PROJECTS = [
   },
 ]
 
+const STATS = [
+  { value: 10, suffix: '+', label: 'Projets livrés' },
+  { value: 3, suffix: '', label: 'Co-fondateurs' },
+  { value: 100, suffix: '%', label: 'Clients satisfaits' },
+  { value: 24, suffix: '/7', label: 'Support IA' },
+]
+
 const TECH_ROW_1 = ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'Node.js', 'Python', 'OpenAI', 'Vercel']
 const TECH_ROW_2 = ['Framer Motion', 'PostgreSQL', 'Supabase', 'Stripe', 'GitHub', 'Docker', 'Figma', 'GraphQL']
 
@@ -276,7 +302,8 @@ export default function Home() {
       </div>
 
       {/* ── SCROLL SHOWCASE ── */}
-      <section className="bg-white overflow-hidden">
+      <section className="bg-white overflow-hidden relative">
+        <AnimatedBg />
         <ContainerScroll
           titleComponent={
             <div className="mb-8">
@@ -301,8 +328,9 @@ export default function Home() {
       </section>
 
       {/* ── SERVICES ── */}
-      <section className="bg-light px-8 md:px-16 py-28" id="services">
-        <div className="max-w-6xl mx-auto">
+      <section className="bg-light px-8 md:px-16 py-28 relative" id="services">
+        <AnimatedBg />
+        <div className="max-w-6xl mx-auto relative z-10">
           <FadeIn className="flex flex-col items-center text-center mb-16">
             <SectionLabel>Services</SectionLabel>
             <h2 className="font-display text-3xl md:text-5xl font-extrabold text-ink leading-tight">
@@ -329,8 +357,9 @@ export default function Home() {
       </section>
 
       {/* ── PORTFOLIO ── */}
-      <section className="bg-white px-8 md:px-16 py-28 border-t border-light-border" id="portfolio">
-        <div className="max-w-6xl mx-auto">
+      <section className="bg-white px-8 md:px-16 py-28 border-t border-light-border relative" id="portfolio">
+        <AnimatedBg />
+        <div className="max-w-6xl mx-auto relative z-10">
           <FadeIn className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
             <div>
               <SectionLabel>Réalisations</SectionLabel>
@@ -429,8 +458,9 @@ export default function Home() {
       )}
 
       {/* ── ABOUT ── */}
-      <section className="bg-light-card px-8 md:px-16 py-28 border-t border-light-border" id="about">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+      <section className="bg-light-card px-8 md:px-16 py-28 border-t border-light-border relative" id="about">
+        <AnimatedBg />
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center relative z-10">
           <div>
             <SectionLabel>Agence Digitale Créative</SectionLabel>
             <h2 className="font-display text-3xl md:text-4xl font-extrabold text-ink leading-tight mb-6">
@@ -476,26 +506,80 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ── STATS ── */}
+      <section className="bg-light border-t border-light-border px-8 md:px-16 py-16 relative overflow-hidden">
+        <AnimatedBg />
+        <div className="max-w-6xl mx-auto relative z-10">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {STATS.map((s, i) => (
+              <FadeIn key={i} delay={i * 0.1} className="flex flex-col items-center text-center">
+                <div className="font-display text-5xl md:text-6xl font-extrabold text-primary mb-2 tabular-nums">
+                  <CountUp target={s.value} suffix={s.suffix} />
+                </div>
+                <p className="text-[12px] font-semibold tracking-[0.15em] uppercase text-light-muted">{s.label}</p>
+              </FadeIn>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── PROCESS ── */}
-      <section className="bg-white px-8 md:px-16 py-28 border-t border-light-border" id="process">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-          {/* Left: abstract visual */}
+      <section className="bg-white px-8 md:px-16 py-28 border-t border-light-border relative" id="process">
+        <AnimatedBg />
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center relative z-10">
+          {/* Left: animated dashboard visual */}
+          <FadeIn>
           <div className="relative rounded-2xl overflow-hidden aspect-[4/3] bg-light border border-light-border">
             <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-transparent" />
-            <div className="absolute inset-0 p-8 grid grid-cols-3 gap-3 opacity-50">
-              {Array.from({ length: 6 }).map((_, i) => (
-                <div key={i} className={`border border-light-border rounded-lg bg-white ${i % 3 === 0 ? 'col-span-2' : ''}`} />
-              ))}
-              {Array.from({ length: 3 }).map((_, i) => (
-                <div key={i} className="border border-light-border rounded-lg bg-white" />
+            {/* Animated grid cards */}
+            <div className="absolute inset-0 p-8 grid grid-cols-3 gap-3">
+              {[
+                { span: 'col-span-2', delay: 0 },
+                { span: '', delay: 0.1 },
+                { span: '', delay: 0.2 },
+                { span: '', delay: 0.3 },
+                { span: 'col-span-2', delay: 0.4 },
+                { span: '', delay: 0.5 },
+                { span: '', delay: 0.6 },
+                { span: '', delay: 0.7 },
+              ].map((item, i) => (
+                <motion.div
+                  key={i}
+                  className={`border border-light-border rounded-lg bg-white ${item.span}`}
+                  initial={{ opacity: 0, scale: 0.85 }}
+                  animate={{ opacity: [0.4, 0.7, 0.4], scale: 1 }}
+                  transition={{ duration: 3 + i * 0.4, repeat: Infinity, ease: 'easeInOut', delay: item.delay }}
+                />
               ))}
             </div>
-            <div className="absolute bottom-8 left-8 right-8">
-              <div className="h-2 bg-light-border rounded-full mb-2 w-3/4" />
-              <div className="h-2 bg-light-border rounded-full mb-2 w-1/2" />
-              <div className="h-2 bg-primary/40 rounded-full w-2/3" />
+            {/* Animated progress bars */}
+            <div className="absolute bottom-8 left-8 right-8 space-y-2.5">
+              {[
+                { width: '75%', color: 'bg-primary/60', delay: 0 },
+                { width: '50%', color: 'bg-primary/30', delay: 0.3 },
+                { width: '65%', color: 'bg-primary/80', delay: 0.6 },
+              ].map((bar, i) => (
+                <div key={i} className="h-1.5 bg-light-border rounded-full overflow-hidden">
+                  <motion.div
+                    className={`h-full ${bar.color} rounded-full`}
+                    initial={{ width: 0 }}
+                    animate={{ width: bar.width }}
+                    transition={{ duration: 1.4, delay: 0.8 + bar.delay, ease: [0.22, 1, 0.36, 1] }}
+                  />
+                </div>
+              ))}
             </div>
+            {/* Floating badge */}
+            <motion.div
+              className="absolute top-6 right-6 bg-white border border-light-border rounded-xl px-3 py-2 flex items-center gap-2 shadow-sm"
+              animate={{ y: [0, -6, 0] }}
+              transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+            >
+              <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+              <span className="text-[11px] font-semibold text-ink">En ligne</span>
+            </motion.div>
           </div>
+          </FadeIn>
 
           {/* Right: steps */}
           <div>
@@ -533,26 +617,37 @@ export default function Home() {
       </section>
 
       {/* ── FOUNDERS ── */}
-      <section className="bg-light px-8 md:px-16 py-28" id="founders">
-        <div className="max-w-6xl mx-auto">
-          <div className="flex flex-col items-center text-center mb-16">
+      <section className="bg-light px-8 md:px-16 py-28 relative overflow-hidden" id="founders">
+        <AnimatedBg />
+        <div className="max-w-6xl mx-auto relative z-10">
+          <FadeIn className="flex flex-col items-center text-center mb-16">
             <SectionLabel>Fondateurs</SectionLabel>
             <h2 className="font-display text-3xl md:text-4xl font-extrabold text-ink">
               L&apos;équipe derrière VOID
             </h2>
-          </div>
+          </FadeIn>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {FOUNDERS.map((f) => (
-              <div key={f.name} className="bg-light-card rounded-2xl p-8 border border-light-border hover:shadow-md transition-shadow">
-                <div className="w-16 h-16 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center font-display text-lg font-extrabold text-primary mb-6">
+            {FOUNDERS.map((f, i) => (
+              <FadeIn key={f.name} delay={i * 0.12}>
+              <motion.div
+                className="bg-light-card rounded-2xl p-8 border border-light-border hover:shadow-xl hover:border-primary/30 transition-all duration-300 cursor-default h-full"
+                whileHover={{ y: -6, scale: 1.015 }}
+                transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <motion.div
+                  className="w-16 h-16 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center font-display text-lg font-extrabold text-primary mb-6"
+                  animate={{ boxShadow: ['0 0 0px #7c3aed00', '0 0 18px #7c3aed33', '0 0 0px #7c3aed00'] }}
+                  transition={{ duration: 3.5, repeat: Infinity, delay: i * 0.8 }}
+                >
                   {f.initials}
-                </div>
+                </motion.div>
                 <h3 className="font-display text-xl font-extrabold text-ink mb-1">{f.name}</h3>
                 <div className="text-[11px] tracking-[0.16em] uppercase text-primary font-semibold mb-4">
                   Co-fondateur
                 </div>
                 <p className="text-sm text-light-muted leading-relaxed">{f.bio}</p>
-              </div>
+              </motion.div>
+              </FadeIn>
             ))}
           </div>
         </div>
@@ -560,26 +655,80 @@ export default function Home() {
 
       {/* ── CTA ── */}
       <section
-        className="px-8 md:px-16 py-28 flex flex-col items-center text-center"
+        className="px-8 md:px-16 py-28 flex flex-col items-center text-center relative overflow-hidden"
         id="contact"
         style={{ background: 'linear-gradient(135deg, #3b0764 0%, #7c3aed 50%, #4c1d95 100%)' }}
       >
-        <p className="text-[11px] font-semibold tracking-[0.22em] uppercase text-white/60 mb-8">
-          Démarrons ensemble
-        </p>
-        <h2 className="font-display text-4xl md:text-6xl font-extrabold text-white leading-[1.05] tracking-tight max-w-3xl mb-6">
-          Votre prochain site<br />commence ici.
-        </h2>
-        <p className="text-base text-white/65 max-w-md mb-10 leading-relaxed">
-          Prenez contact dès aujourd&apos;hui pour un devis gratuit et sans engagement.
-        </p>
-        <a
-          href="mailto:hello@void.agency"
-          className="inline-flex items-center gap-3 bg-white text-primary text-[12px] font-bold tracking-wide px-8 py-4 rounded-full hover:opacity-90 transition-opacity"
-        >
-          Prendre contact
-          <ArrowIcon className="w-4 h-4" />
-        </a>
+        {/* Animated orbs */}
+        {[
+          { w: 400, h: 400, top: '-15%', left: '-10%', delay: 0 },
+          { w: 300, h: 300, top: '60%', right: '-8%', delay: 2 },
+          { w: 200, h: 200, top: '20%', right: '20%', delay: 1 },
+        ].map((orb, i) => (
+          <motion.div
+            key={i}
+            className="absolute rounded-full pointer-events-none"
+            style={{
+              width: orb.w, height: orb.h,
+              top: orb.top, left: (orb as any).left, right: (orb as any).right,
+              background: 'radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%)',
+            }}
+            animate={{ scale: [1, 1.15, 1], opacity: [0.6, 1, 0.6] }}
+            transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut', delay: orb.delay }}
+          />
+        ))}
+        {/* Floating stars */}
+        {Array.from({ length: 18 }).map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute w-1 h-1 rounded-full bg-white/30 pointer-events-none"
+            style={{ top: `${10 + Math.random() * 80}%`, left: `${5 + Math.random() * 90}%` }}
+            animate={{ opacity: [0.1, 0.7, 0.1], y: [0, -12, 0] }}
+            transition={{ duration: 3 + (i % 4), repeat: Infinity, delay: (i * 0.3) % 3 }}
+          />
+        ))}
+        <div className="relative z-10 flex flex-col items-center">
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-[11px] font-semibold tracking-[0.22em] uppercase text-white/60 mb-8"
+          >
+            Démarrons ensemble
+          </motion.p>
+          <motion.h2
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, delay: 0.1 }}
+            className="font-display text-4xl md:text-6xl font-extrabold text-white leading-[1.05] tracking-tight max-w-3xl mb-6"
+          >
+            Votre prochain site<br />commence ici.
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, delay: 0.2 }}
+            className="text-base text-white/65 max-w-md mb-10 leading-relaxed"
+          >
+            Prenez contact dès aujourd&apos;hui pour un devis gratuit et sans engagement.
+          </motion.p>
+          <motion.a
+            href="mailto:hello@void.agency"
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.35 }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.97 }}
+            className="inline-flex items-center gap-3 bg-white text-primary text-[12px] font-bold tracking-wide px-8 py-4 rounded-full hover:opacity-90 transition-opacity"
+          >
+            Prendre contact
+            <ArrowIcon className="w-4 h-4" />
+          </motion.a>
+        </div>
       </section>
 
       {/* ── FOOTER ── */}
