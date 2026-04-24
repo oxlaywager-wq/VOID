@@ -237,6 +237,35 @@ function SectionLabel({ children, dark = false }: { children: React.ReactNode; d
   )
 }
 
+function TypingURL() {
+  const url = 'void.agency'
+  const [displayed, setDisplayed] = useState('')
+  useEffect(() => {
+    let i = 0
+    let forward = true
+    const tick = () => {
+      if (forward) {
+        i++
+        setDisplayed(url.slice(0, i))
+        if (i >= url.length) { forward = false; setTimeout(tick, 1800); return }
+      } else {
+        i--
+        setDisplayed(url.slice(0, i))
+        if (i <= 0) { forward = true }
+      }
+      setTimeout(tick, forward ? 90 : 55)
+    }
+    const t = setTimeout(tick, 600)
+    return () => clearTimeout(t)
+  }, [])
+  return (
+    <span className="text-[10px] font-mono text-white/60 flex items-center gap-0.5">
+      {displayed}
+      <motion.span animate={{ opacity: [1, 0, 1] }} transition={{ duration: 0.8, repeat: Infinity }} className="inline-block w-px h-3 bg-primary/80" />
+    </span>
+  )
+}
+
 export default function Home() {
   const [scrolled, setScrolled] = useState(false)
   const [activeProject, setActiveProject] = useState<typeof PROJECTS[0] | null>(null)
@@ -578,57 +607,117 @@ export default function Home() {
       <section className="bg-white px-8 md:px-16 py-28 border-t border-light-border relative" id="process">
         <AnimatedBg />
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center relative z-10">
-          {/* Left: animated dashboard visual */}
+          {/* Left: browser mockup illustration */}
           <FadeIn>
-          <div className="relative rounded-2xl overflow-hidden aspect-[4/3] bg-light border border-light-border">
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-transparent" />
-            {/* Animated grid cards */}
-            <div className="absolute inset-0 p-8 grid grid-cols-3 gap-3">
-              {[
-                { span: 'col-span-2', delay: 0 },
-                { span: '', delay: 0.1 },
-                { span: '', delay: 0.2 },
-                { span: '', delay: 0.3 },
-                { span: 'col-span-2', delay: 0.4 },
-                { span: '', delay: 0.5 },
-                { span: '', delay: 0.6 },
-                { span: '', delay: 0.7 },
-              ].map((item, i) => (
-                <motion.div
-                  key={i}
-                  className={`border border-light-border rounded-lg bg-white ${item.span}`}
-                  initial={{ opacity: 0, scale: 0.85 }}
-                  animate={{ opacity: [0.4, 0.7, 0.4], scale: 1 }}
-                  transition={{ duration: 3 + i * 0.4, repeat: Infinity, ease: 'easeInOut', delay: item.delay }}
-                />
-              ))}
-            </div>
-            {/* Animated progress bars */}
-            <div className="absolute bottom-8 left-8 right-8 space-y-2.5">
-              {[
-                { width: '75%', color: 'bg-primary/60', delay: 0 },
-                { width: '50%', color: 'bg-primary/30', delay: 0.3 },
-                { width: '65%', color: 'bg-primary/80', delay: 0.6 },
-              ].map((bar, i) => (
-                <div key={i} className="h-1.5 bg-light-border rounded-full overflow-hidden">
-                  <motion.div
-                    className={`h-full ${bar.color} rounded-full`}
-                    initial={{ width: 0 }}
-                    animate={{ width: bar.width }}
-                    transition={{ duration: 1.4, delay: 0.8 + bar.delay, ease: [0.22, 1, 0.36, 1] }}
-                  />
+          <div className="relative rounded-2xl overflow-hidden aspect-[4/3] bg-[#0d0f1a] border border-white/10 shadow-2xl">
+
+            {/* Glow behind browser */}
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-violet-900/10 pointer-events-none" />
+
+            {/* Browser window */}
+            <div className="absolute inset-4 rounded-xl overflow-hidden border border-white/10 flex flex-col shadow-xl">
+
+              {/* Browser chrome */}
+              <div className="bg-[#1a1c2e] px-3 py-2.5 flex items-center gap-2.5 border-b border-white/10 shrink-0">
+                <div className="flex gap-1.5">
+                  <div className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
+                  <div className="w-2.5 h-2.5 rounded-full bg-[#febc2e]" />
+                  <div className="w-2.5 h-2.5 rounded-full bg-[#28c840]" />
                 </div>
-              ))}
+                {/* URL bar */}
+                <div className="flex-1 bg-[#0d0f1a] rounded-md px-3 py-1 flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-green-400 shrink-0" />
+                  <TypingURL />
+                </div>
+              </div>
+
+              {/* Website content inside browser */}
+              <div className="flex-1 bg-white overflow-hidden">
+
+                {/* Mini nav */}
+                <div className="flex items-center justify-between px-4 py-2.5 border-b border-gray-100">
+                  <div className="w-8 h-2 bg-primary/60 rounded-full" />
+                  <div className="flex gap-2">
+                    {[40, 32, 36].map((w, i) => (
+                      <motion.div key={i} className="h-1.5 bg-gray-200 rounded-full"
+                        style={{ width: w }}
+                        animate={{ opacity: [0.5, 1, 0.5] }}
+                        transition={{ duration: 2.5, repeat: Infinity, delay: i * 0.3 }}
+                      />
+                    ))}
+                  </div>
+                  <div className="w-14 h-5 bg-primary rounded-full" />
+                </div>
+
+                {/* Hero block */}
+                <motion.div
+                  className="mx-3 mt-3 rounded-lg overflow-hidden"
+                  style={{ background: 'linear-gradient(135deg, #3b0764 0%, #7c3aed 100%)', height: 64 }}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.7, delay: 0.3 }}
+                >
+                  <div className="flex flex-col items-center justify-center h-full gap-1">
+                    <div className="w-24 h-2 bg-white/70 rounded-full" />
+                    <div className="w-16 h-1.5 bg-white/40 rounded-full" />
+                  </div>
+                </motion.div>
+
+                {/* Cards row */}
+                <div className="grid grid-cols-3 gap-2 px-3 mt-3">
+                  {[0, 1, 2].map((i) => (
+                    <motion.div
+                      key={i}
+                      className="rounded-lg border border-gray-100 bg-gray-50 p-2"
+                      style={{ height: 44 }}
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.5, delay: 0.6 + i * 0.15 }}
+                    >
+                      <div className="w-4 h-4 rounded bg-primary/20 mb-1" />
+                      <div className="w-full h-1.5 bg-gray-200 rounded-full" />
+                    </motion.div>
+                  ))}
+                </div>
+
+                {/* Text lines */}
+                <div className="px-3 mt-3 space-y-1.5">
+                  {[80, 65, 72].map((w, i) => (
+                    <motion.div
+                      key={i}
+                      className="h-1.5 bg-gray-100 rounded-full"
+                      style={{ width: `${w}%` }}
+                      initial={{ scaleX: 0, originX: 0 }}
+                      animate={{ scaleX: 1 }}
+                      transition={{ duration: 0.6, delay: 1 + i * 0.12 }}
+                    />
+                  ))}
+                </div>
+              </div>
             </div>
-            {/* Floating badge */}
+
+            {/* Floating "Livré ✓" badge */}
             <motion.div
-              className="absolute top-6 right-6 bg-white border border-light-border rounded-xl px-3 py-2 flex items-center gap-2 shadow-sm"
+              className="absolute bottom-7 right-7 bg-white rounded-xl px-3 py-2 flex items-center gap-2 shadow-lg border border-white/20"
               animate={{ y: [0, -6, 0] }}
-              transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+              transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
             >
-              <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-              <span className="text-[11px] font-semibold text-ink">En ligne</span>
+              <span className="w-2 h-2 rounded-full bg-green-400" />
+              <span className="text-[11px] font-bold text-ink">Livré ✓</span>
             </motion.div>
+
+            {/* Floating cursor */}
+            <motion.div
+              className="absolute w-3 h-3 pointer-events-none"
+              style={{ top: '52%', left: '48%' }}
+              animate={{ x: [0, 18, 10, 24, 0], y: [0, -8, 12, 4, 0] }}
+              transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
+            >
+              <svg viewBox="0 0 12 12" className="w-4 h-4 drop-shadow">
+                <path d="M1 1l4 10 1.5-3.5L10 6z" fill="white" stroke="#0d0f1a" strokeWidth="0.8" />
+              </svg>
+            </motion.div>
+
           </div>
           </FadeIn>
 
