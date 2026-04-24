@@ -37,7 +37,7 @@ function CountUp({ target, suffix = '' }: { target: number; suffix?: string }) {
     }, 20)
     return () => clearInterval(timer)
   }, [inView, target])
-  return <span ref={ref}>{count}{suffix}</span>
+  return <span ref={ref}>{count}{suffix || null}</span>
 }
 
 function ArrowIcon({ className }: { className?: string }) {
@@ -283,7 +283,7 @@ function TypingURL() {
   }, [])
   return (
     <span className="text-[10px] font-mono text-white/60 flex items-center gap-0.5">
-      {displayed}
+      {displayed || null}
       <motion.span animate={{ opacity: [1, 0, 1] }} transition={{ duration: 0.8, repeat: Infinity }} className="inline-block w-px h-3 bg-primary/80" />
     </span>
   )
