@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inscription aux cours</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0f0f0f;
+      --surface: #1a1a1a;
+      --border: #2a2a2a;
+      --accent: #c8ff00;
+      --text: #f0f0f0;
+      --muted: #888;
+      --radius: 12px;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 40px 36px;
+      width: 100%;
+      max-width: 520px;
+    }
+
+    .logo {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    h1 {
+      font-size: 22px;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 32px;
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .section {
+      margin-bottom: 28px;
+    }
+
+    /* Toggle tabs */
+    .toggle-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 4px;
+      gap: 4px;
+    }
+
+    .toggle-group input[type="radio"] { display: none; }
+
+    .toggle-group label {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 14px 12px;
+      border-radius: 9px;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+      text-align: center;
+    }
+
+    .toggle-group label .label-title {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .toggle-group label .label-sub {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .toggle-group input:checked + label {
+      background: var(--accent);
+      color: #000;
+    }
+
+    .toggle-group input:checked + label .label-sub {
+      color: rgba(0,0,0,0.55);
+    }
+
+    /* Schedule grid */
+    .schedule-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .slot-item { display: none; }
+    .slot-item input[type="checkbox"] { display: none; }
+
+    .slot-item label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 16px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: border-color 0.15s;
+      user-select: none;
+    }
+
+    .slot-item label:hover { border-color: #444; }
+
+    .slot-item input:checked + label {
+      border-color: var(--accent);
+      background: rgba(200,255,0,0.05);
+    }
+
+    .slot-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .slot-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--border);
+      flex-shrink: 0;
+      transition: background 0.15s;
+    }
+
+    .slot-item input:checked + label .slot-dot {
+      background: var(--accent);
+    }
+
+    .slot-day {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .slot-time {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 1px;
+    }
+
+    .slot-coach {
+      font-size: 12px;
+      color: var(--muted);
+      text-align: right;
+    }
+
+    /* Show all slots when "ponctuel" is selected, or selected slots */
+    .show-all .slot-item { display: block; }
+
+    /* Fields */
+    .fields { display: flex; flex-direction: column; gap: 12px; }
+
+    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    textarea {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 13px 14px;
+      color: var(--text);
+      font-size: 14px;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    input:focus, textarea:focus { border-color: #555; }
+
+    input::placeholder, textarea::placeholder { color: var(--muted); }
+
+    textarea { resize: none; height: 72px; }
+
+    /* Submit */
+    button[type="submit"] {
+      width: 100%;
+      padding: 16px;
+      background: var(--accent);
+      color: #000;
+      font-size: 15px;
+      font-weight: 700;
+      border: none;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: opacity 0.15s, transform 0.1s;
+      margin-top: 8px;
+      letter-spacing: 0.02em;
+    }
+
+    button[type="submit"]:hover { opacity: 0.88; }
+    button[type="submit"]:active { transform: scale(0.99); }
+
+    /* Success state */
+    .success {
+      display: none;
+      text-align: center;
+      padding: 20px 0 8px;
+    }
+
+    .success .check {
+      font-size: 40px;
+      margin-bottom: 12px;
+    }
+
+    .success h2 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .success p {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* Hint for annual */
+    .annual-hint {
+      display: none;
+      background: rgba(200,255,0,0.06);
+      border: 1px solid rgba(200,255,0,0.18);
+      border-radius: 9px;
+      padding: 12px 14px;
+      font-size: 12px;
+      color: #b8ee00;
+      line-height: 1.5;
+      margin-top: -16px;
+      margin-bottom: 20px;
+    }
+
+    @media (max-width: 480px) {
+      .card { padding: 28px 20px; }
+      .field-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="card" id="formCard">
+  <div class="logo">Inscription</div>
+  <h1>Choisis ton cours</h1>
+  <p class="subtitle">30 secondes, pas de blabla.</p>
+
+  <form id="enrollForm" novalidate>
+
+    <!-- STEP 1 : Type de cours -->
+    <div class="section">
+      <div class="section-label">Comment tu veux suivre les cours ?</div>
+      <div class="toggle-group">
+        <input type="radio" name="type" id="type-ponctuel" value="ponctuel" />
+        <label for="type-ponctuel">
+          <span class="label-title">À la séance</span>
+          <span class="label-sub">Tu paies au coup par coup</span>
+        </label>
+        <input type="radio" name="type" id="type-annuel" value="annuel" />
+        <label for="type-annuel">
+          <span class="label-title">À l'année</span>
+          <span class="label-sub">Tarif préférentiel</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Hint annuel -->
+    <div class="annual-hint" id="annualHint">
+      Tes préférences d'horaires nous aident à planifier la saison prochaine — pas d'engagement ferme à ce stade.
+    </div>
+
+    <!-- STEP 2 : Créneaux -->
+    <div class="section">
+      <div class="section-label">Quels créneaux t'arrangent ?</div>
+      <div class="schedule-grid" id="scheduleGrid">
+
+        <div class="slot-item">
+          <input type="checkbox" id="slot-dim" name="slots" value="dimanche-matin" />
+          <label for="slot-dim">
+            <div class="slot-left">
+              <div class="slot-dot"></div>
+              <div>
+                <div class="slot-day">Dimanche matin</div>
+                <div class="slot-time">Horaire à confirmer</div>
+              </div>
+            </div>
+            <div class="slot-coach">Jolan</div>
+          </label>
+        </div>
+
+        <div class="slot-item">
+          <input type="checkbox" id="slot-lun" name="slots" value="lundi-soir" />
+          <label for="slot-lun">
+            <div class="slot-left">
+              <div class="slot-dot"></div>
+              <div>
+                <div class="slot-day">Lundi soir</div>
+                <div class="slot-time">Horaire à confirmer</div>
+              </div>
+            </div>
+            <div class="slot-coach">Jolan</div>
+          </label>
+        </div>
+
+        <div class="slot-item">
+          <input type="checkbox" id="slot-jeu" name="slots" value="jeudi-soir" />
+          <label for="slot-jeu">
+            <div class="slot-left">
+              <div class="slot-dot"></div>
+              <div>
+                <div class="slot-day">Jeudi soir</div>
+                <div class="slot-time">Horaire à confirmer</div>
+              </div>
+            </div>
+            <div class="slot-coach">Prof top 500</div>
+          </label>
+        </div>
+
+        <div class="slot-item">
+          <input type="checkbox" id="slot-ven" name="slots" value="vendredi-soir" />
+          <label for="slot-ven">
+            <div class="slot-left">
+              <div class="slot-dot"></div>
+              <div>
+                <div class="slot-day">Vendredi soir</div>
+                <div class="slot-time">Horaire à confirmer</div>
+              </div>
+            </div>
+            <div class="slot-coach">Jolan</div>
+          </label>
+        </div>
+
+        <div class="slot-item">
+          <input type="checkbox" id="slot-sam" name="slots" value="samedi-matin" />
+          <label for="slot-sam">
+            <div class="slot-left">
+              <div class="slot-dot"></div>
+              <div>
+                <div class="slot-day">Samedi matin</div>
+                <div class="slot-time">Horaire à confirmer</div>
+              </div>
+            </div>
+            <div class="slot-coach">Pascal</div>
+          </label>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- STEP 3 : Contact -->
+    <div class="section">
+      <div class="section-label">Tes coordonnées</div>
+      <div class="fields">
+        <div class="field-row">
+          <input type="text" name="prenom" placeholder="Prénom" required />
+          <input type="text" name="nom" placeholder="Nom" required />
+        </div>
+        <input type="tel" name="tel" placeholder="Téléphone" required />
+        <input type="email" name="email" placeholder="Email" required />
+        <textarea name="message" placeholder="Un commentaire ? (optionnel)"></textarea>
+      </div>
+    </div>
+
+    <button type="submit">Envoyer ma demande →</button>
+
+  </form>
+
+  <!-- Success -->
+  <div class="success" id="successMsg">
+    <div class="check">✓</div>
+    <h2>C'est noté !</h2>
+    <p>On revient vers toi rapidement<br>pour confirmer les détails.</p>
+  </div>
+</div>
+
+<script>
+  const form = document.getElementById('enrollForm');
+  const grid = document.getElementById('scheduleGrid');
+  const annualHint = document.getElementById('annualHint');
+
+  // Show slots when a type is selected
+  document.querySelectorAll('input[name="type"]').forEach(radio => {
+    radio.addEventListener('change', () => {
+      grid.classList.add('show-all');
+      annualHint.style.display = radio.value === 'annuel' ? 'block' : 'none';
+    });
+  });
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+
+    const type = form.querySelector('input[name="type"]:checked');
+    const slots = [...form.querySelectorAll('input[name="slots"]:checked')];
+    const prenom = form.querySelector('[name="prenom"]').value.trim();
+    const tel = form.querySelector('[name="tel"]').value.trim();
+    const email = form.querySelector('[name="email"]').value.trim();
+
+    if (!type) { alert('Choisis un type de cours.'); return; }
+    if (!slots.length) { alert('Sélectionne au moins un créneau.'); return; }
+    if (!prenom || !tel || !email) { alert('Prénom, téléphone et email sont requis.'); return; }
+
+    // Collect data
+    const data = {
+      type: type.value,
+      slots: slots.map(s => s.value),
+      prenom,
+      nom: form.querySelector('[name="nom"]').value.trim(),
+      tel,
+      email,
+      message: form.querySelector('[name="message"]').value.trim(),
+    };
+
+    console.log('Inscription:', data);
+
+    // Show success
+    form.style.display = 'none';
+    document.getElementById('successMsg').style.display = 'block';
+  });
+</script>
+
+</body>
+</html>
