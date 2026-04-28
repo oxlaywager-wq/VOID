@@ -4,30 +4,30 @@
   --font-display: var(--font-syne), sans-serif;
   --font-sans: var(--font-inter), sans-serif;
 
-  /* Primary accent — purple */
+  /* Primary — violet vif */
   --color-primary: #7c3aed;
-  --color-primary-hover: #5b21b6;
+  --color-primary-hover: #6d28d9;
 
-  /* Dark sections */
-  --color-dark: #0d0f1a;
-  --color-dark-card: #161827;
-  --color-dark-border: #252840;
-  --color-dark-muted: #94a3b8;
+  /* Dark sections — nuit violette */
+  --color-dark: #06031a;
+  --color-dark-card: #0d0528;
+  --color-dark-border: #1e1040;
+  --color-dark-muted: #a78bfa;
 
-  /* Light sections */
-  --color-light: #f0effe;
+  /* Light sections — blanc et violet pâle */
+  --color-light: #f5f3ff;
   --color-light-card: #ffffff;
-  --color-light-border: #e5e7eb;
+  --color-light-border: #ede9fe;
   --color-light-muted: #6b7280;
-  --color-ink: #0f0f1a;
+  --color-ink: #0f0a1e;
 
-  /* Backwards compat for spotlight/splite */
+  /* Backwards compat */
   --color-accent: #7c3aed;
-  --color-void-black: #0d0f1a;
-  --color-void-white: #f8fafc;
-  --color-grey: #161827;
-  --color-grey-mid: #252840;
-  --color-grey-text: #94a3b8;
+  --color-void-black: #06031a;
+  --color-void-white: #fafafe;
+  --color-grey: #0d0528;
+  --color-grey-mid: #1e1040;
+  --color-grey-text: #a78bfa;
 
   --animate-marquee: marquee 30s linear infinite;
   --animate-marquee-slow: marquee 45s linear infinite;
@@ -50,7 +50,7 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #0f0f1a;
+  --foreground: #0f0a1e;
 }
 
 html {
