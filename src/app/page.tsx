@@ -312,11 +312,18 @@ export default function Home() {
     <main className="overflow-x-hidden">
 
       {/* ── NAV ── */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-8 md:px-16 py-5 transition-all duration-300 ${
-        scrolled ? 'bg-white/95 backdrop-blur-xl border-b border-light-border' : 'bg-white border-b border-light-border'
-      }`}>
+      <nav className={`fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-8 md:px-16 py-4 transition-all duration-300 ${
+        scrolled
+          ? 'bg-white/96 backdrop-blur-xl shadow-sm shadow-violet-100/60'
+          : 'bg-transparent'
+      }`}
+        style={{ borderBottom: scrolled ? '1px solid #ede9fe' : '1px solid transparent' }}
+      >
         <a href="#">
-          <img src="/logo.png" alt="VOID" className="h-10 w-auto object-contain" style={{ mixBlendMode: 'multiply' }} />
+          <span className="font-display font-extrabold text-xl tracking-widest"
+            style={{ color: scrolled ? '#0f0a1e' : '#ffffff' }}>
+            VOID
+          </span>
         </a>
         <ul className="hidden md:flex gap-8 list-none">
           {[
@@ -326,7 +333,11 @@ export default function Home() {
             { label: 'Fondateurs', href: '#founders' },
           ].map((item) => (
             <li key={item.label}>
-              <a href={item.href} className="text-[12px] font-medium text-light-muted hover:text-ink transition-colors">
+              <a
+                href={item.href}
+                className="text-[12px] font-medium transition-colors"
+                style={{ color: scrolled ? '#6b7280' : 'rgba(255,255,255,0.65)' }}
+              >
                 {item.label}
               </a>
             </li>
@@ -334,28 +345,32 @@ export default function Home() {
         </ul>
         <a
           href="#contact"
-          className="text-[12px] font-bold bg-primary text-white px-5 py-2.5 rounded-full hover:bg-primary-hover transition-colors"
+          className="text-[12px] font-bold px-5 py-2.5 rounded-full transition-all"
+          style={scrolled
+            ? { background: '#7c3aed', color: '#ffffff' }
+            : { background: 'rgba(124,58,237,0.18)', color: '#c4b5fd', border: '1px solid rgba(167,139,250,0.3)' }
+          }
         >
           Démarrer un projet
         </a>
       </nav>
 
       {/* ── HERO ── */}
-      <section className="pt-16" id="home">
+      <section id="home">
         <Hero />
       </section>
 
       {/* ── MARQUEE ── */}
-      <div className="bg-light border-y border-light-border py-4 overflow-hidden">
+      <div className="overflow-hidden py-4" style={{ background: '#f5f3ff', borderTop: '1px solid #ede9fe', borderBottom: '1px solid #ede9fe' }}>
         <div className="flex animate-marquee whitespace-nowrap">
           {[0, 1].map((set) => (
             <div key={set} className="flex shrink-0">
               {MARQUEE_ITEMS.map((item, i) => (
                 <span key={i} className="flex items-center">
-                  <span className="text-[11px] font-semibold tracking-[0.2em] uppercase text-dark-muted px-10">
+                  <span className="text-[11px] font-semibold tracking-[0.2em] uppercase px-10" style={{ color: '#7c3aed', opacity: 0.7 }}>
                     {item}
                   </span>
-                  <span className="text-primary text-xs">✦</span>
+                  <span className="text-xs" style={{ color: '#a78bfa' }}>✦</span>
                 </span>
               ))}
             </div>
