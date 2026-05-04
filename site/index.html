@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Outtarget — Guide Automatisation Zapier</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: #0f0f13;
+      color: #e8e8f0;
+      line-height: 1.7;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      border-bottom: 1px solid #2a2a4a;
+      padding: 40px 24px;
+      text-align: center;
+    }
+
+    header .badge {
+      display: inline-block;
+      background: #ff6b35;
+      color: white;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 4px 14px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+    }
+
+    header h1 {
+      font-size: clamp(28px, 5vw, 48px);
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 10px;
+    }
+
+    header h1 span { color: #ff6b35; }
+
+    header p {
+      color: #8888aa;
+      font-size: 16px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* ── LAYOUT ── */
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 48px 24px;
+    }
+
+    /* ── INTRO CARD ── */
+    .intro-card {
+      background: #1a1a2e;
+      border: 1px solid #2a2a4a;
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 48px;
+    }
+
+    .intro-card h2 {
+      font-size: 20px;
+      color: #ffffff;
+      margin-bottom: 16px;
+    }
+
+    .stack-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .stack-item {
+      background: #0f0f1a;
+      border: 1px solid #2a2a4a;
+      border-radius: 10px;
+      padding: 14px 16px;
+      font-size: 13px;
+    }
+
+    .stack-item .tool { color: #ff6b35; font-weight: 700; }
+    .stack-item .desc { color: #6666aa; font-size: 12px; margin-top: 4px; }
+
+    /* ── SECTION TITLE ── */
+    .section-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 24px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #2a2a4a;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-title .icon {
+      background: #ff6b35;
+      color: white;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    /* ── STEPS ── */
+    .steps { margin-bottom: 48px; }
+
+    .step {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 24px;
+      background: #1a1a2e;
+      border: 1px solid #2a2a4a;
+      border-radius: 14px;
+      padding: 24px;
+      transition: border-color 0.2s;
+    }
+
+    .step:hover { border-color: #ff6b35; }
+
+    .step-num {
+      background: #ff6b35;
+      color: white;
+      font-weight: 800;
+      font-size: 18px;
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .step-content h3 {
+      color: #ffffff;
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .step-content .app-tag {
+      display: inline-block;
+      background: #0f0f1a;
+      border: 1px solid #3a3a6a;
+      color: #8888cc;
+      font-size: 11px;
+      padding: 2px 10px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+    }
+
+    .step-content p { color: #9999bb; font-size: 14px; }
+
+    /* ── PROBLEMS ── */
+    .problems { margin-bottom: 48px; }
+
+    .problem-card {
+      background: #1a1a2e;
+      border: 1px solid #2a2a4a;
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 16px;
+    }
+
+    .problem-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .problem-emoji { font-size: 28px; flex-shrink: 0; }
+
+    .problem-header h3 { color: #ffffff; font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+    .problem-header .cause { color: #ff6b6b; font-size: 13px; }
+
+    .fix-box {
+      background: #0a1a0a;
+      border: 1px solid #1a4a1a;
+      border-radius: 10px;
+      padding: 16px 20px;
+    }
+
+    .fix-box .fix-label {
+      color: #4caf50;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .fix-box p { color: #aaccaa; font-size: 13px; }
+
+    /* ── CODE BLOCKS ── */
+    .code-section { margin-bottom: 48px; }
+
+    .code-block {
+      background: #0a0a14;
+      border: 1px solid #2a2a4a;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+
+    .code-block-header {
+      background: #1a1a2e;
+      border-bottom: 1px solid #2a2a4a;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .code-block-header .filename {
+      color: #ff6b35;
+      font-size: 13px;
+      font-weight: 600;
+      font-family: 'Courier New', monospace;
+    }
+
+    .code-block-header .lang {
+      color: #4a4a7a;
+      font-size: 11px;
+    }
+
+    .code-block pre {
+      padding: 24px;
+      overflow-x: auto;
+      font-family: 'Courier New', Consolas, monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      color: #c8c8e8;
+    }
+
+    .code-block pre .comment { color: #4a6a4a; }
+    .code-block pre .string  { color: #ce9178; }
+    .code-block pre .key     { color: #9cdcfe; }
+    .code-block pre .kw      { color: #569cd6; }
+    .code-block pre .fn      { color: #dcdcaa; }
+
+    /* ── EXCEL TABLE ── */
+    .excel-section { margin-bottom: 48px; }
+
+    .excel-table-wrap { overflow-x: auto; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    thead tr { background: #1a1a2e; }
+    thead th {
+      text-align: left;
+      padding: 12px 16px;
+      color: #ff6b35;
+      font-weight: 700;
+      border-bottom: 2px solid #2a2a4a;
+      white-space: nowrap;
+    }
+
+    tbody tr { border-bottom: 1px solid #1a1a2e; }
+    tbody tr:hover { background: #1a1a2e; }
+    tbody td { padding: 10px 16px; color: #9999bb; }
+    tbody td:first-child { color: #ffffff; font-weight: 600; }
+    tbody td:last-child { color: #6699cc; font-family: 'Courier New', monospace; font-size: 12px; }
+
+    /* ── CHECKLIST ── */
+    .checklist { margin-bottom: 48px; }
+
+    .check-group {
+      background: #1a1a2e;
+      border: 1px solid #2a2a4a;
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 16px;
+    }
+
+    .check-group h3 {
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .check-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .check-item input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      margin-top: 3px;
+      flex-shrink: 0;
+      accent-color: #ff6b35;
+      cursor: pointer;
+    }
+
+    .check-item label {
+      color: #9999bb;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid #2a2a4a;
+      padding: 32px 24px;
+      text-align: center;
+      color: #4a4a6a;
+      font-size: 12px;
+    }
+
+    footer strong { color: #6a6a9a; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      .step { flex-direction: column; gap: 12px; }
+      .problem-header { flex-direction: column; gap: 8px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="badge">Automatisation Zapier</div>
+  <h1>Guide <span>Outtarget</span></h1>
+  <p>Traitement automatique des emails fournisseurs → classement Excel OneDrive</p>
+</header>
+
+<main>
+
+  <!-- ── INTRO ── -->
+  <div class="intro-card">
+    <h2>Qu'est-ce que ce Zap fait concrètement ?</h2>
+    <p style="color:#9999bb; font-size:14px;">
+      Chaque fois qu'un email d'un fournisseur arrive dans Gmail,
+      le Zap lit l'email, visite automatiquement le site du fournisseur,
+      analyse tout avec l'IA, puis ajoute une ou plusieurs lignes dans votre
+      fichier Excel — <strong style="color:#fff;">sans que vous ayez à faire quoi que ce soit.</strong>
+    </p>
+
+    <div class="stack-grid">
+      <div class="stack-item">
+        <div class="tool">Gmail</div>
+        <div class="desc">Détecte les nouveaux emails</div>
+      </div>
+      <div class="stack-item">
+        <div class="tool">Formatter</div>
+        <div class="desc">Extrait l'URL du site</div>
+      </div>
+      <div class="stack-item">
+        <div class="tool">Jina.ai</div>
+        <div class="desc">Lit le contenu du site</div>
+      </div>
+      <div class="stack-item">
+        <div class="tool">IA (Gemini)</div>
+        <div class="desc">Analyse et classe</div>
+      </div>
+      <div class="stack-item">
+        <div class="tool">Code by Zapier</div>
+        <div class="desc">Nettoie les données</div>
+      </div>
+      <div class="stack-item">
+        <div class="tool">Looping</div>
+        <div class="desc">1 ligne par famille</div>
+      </div>
+      <div class="stack-item">
+        <div class="tool">Excel OneDrive</div>
+        <div class="desc">Enregistre tout</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── LES ÉTAPES ── -->
+  <div class="steps">
+    <div class="section-title">
+      <div class="icon">→</div>
+      Les 8 étapes du Zap
+    </div>
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <div class="app-tag">Gmail</div>
+        <h3>Détection de l'email</h3>
+        <p>Zapier surveille votre boîte Gmail. Dès qu'un email contient des mots comme
+        <em>bag, packaging, sac, factory, manufacturer, supplier…</em> dans l'objet, le Zap se déclenche.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <div class="app-tag">Formatter by Zapier</div>
+        <h3>Extraction de l'URL du site fournisseur</h3>
+        <p>Zapier lit le texte de l'email et en extrait automatiquement l'adresse du site web du fournisseur
+        (ex: <em>www.example-bags.com</em>).</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <div class="app-tag">Webhooks → Jina.ai</div>
+        <h3>Lecture du site fournisseur</h3>
+        <p>Zapier envoie l'URL à Jina.ai qui visite le site et renvoie son contenu en texte brut.
+        C'est comme si Zapier lisait le site à votre place.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <div class="app-tag">Gemini API via Webhooks</div>
+        <h3>Analyse par l'IA</h3>
+        <p>L'IA reçoit l'email + le contenu du site et produit une fiche structurée :
+        nom, pays, familles de produits, certifications, score qualité… en JSON.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-content">
+        <div class="app-tag">Formatter by Zapier</div>
+        <h3>Extraction du JSON</h3>
+        <p>Zapier prend la réponse textuelle de l'IA et identifie le JSON à l'intérieur
+        pour pouvoir utiliser chaque champ séparément.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">6</div>
+      <div class="step-content">
+        <div class="app-tag">Code by Zapier</div>
+        <h3>Nettoyage des données</h3>
+        <p>Un petit programme JavaScript corrige automatiquement les bugs :
+        convertit VRAI/FAUX en Oui/Non, et découpe la liste des familles pour
+        que le Looping puisse les traiter une par une.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">7</div>
+      <div class="step-content">
+        <div class="app-tag">Looping by Zapier</div>
+        <h3>Boucle sur chaque famille de produit</h3>
+        <p>Si un fournisseur propose 3 familles (ex: Sac coton, Sac Luxe, Doypack),
+        le Looping va répéter l'étape suivante 3 fois — une ligne Excel par famille.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">8</div>
+      <div class="step-content">
+        <div class="app-tag">Microsoft Excel — OneDrive</div>
+        <h3>Ajout dans le tableau fournisseurs</h3>
+        <p>Zapier ajoute une ligne dans <em>Tableur Fournisseurs tests.xlsm</em>,
+        onglet <em>Feuil1</em>, avec toutes les colonnes remplies automatiquement.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── LES 4 PROBLÈMES ── -->
+  <div class="problems">
+    <div class="section-title">
+      <div class="icon">!</div>
+      Les 4 problèmes et leurs corrections
+    </div>
+
+    <div class="problem-card">
+      <div class="problem-header">
+        <div class="problem-emoji">🔤</div>
+        <div>
+          <h3>Problème 1 — VRAI/FAUX au lieu de Oui/Non</h3>
+          <div class="cause">L'IA retournait true/false (anglais) que Zapier traduisait en VRAI/FAUX en français</div>
+        </div>
+      </div>
+      <div class="fix-box">
+        <div class="fix-label">✓ Correction</div>
+        <p>Le prompt oblige l'IA à écrire uniquement les mots <strong>"Oui"</strong>, <strong>"Non"</strong> ou <strong>"Non mentionné"</strong> — jamais des booléens. Et le Code by Zapier (Step 6) vérifie et corrige en double sécurité.</p>
+      </div>
+    </div>
+
+    <div class="problem-card">
+      <div class="problem-header">
+        <div class="problem-emoji">📋</div>
+        <div>
+          <h3>Problème 2 — familles_list en JSON brut dans Excel</h3>
+          <div class="cause">La cellule Excel recevait [{"famille":"Sac coton",...}] tel quel au lieu des vraies valeurs</div>
+        </div>
+      </div>
+      <div class="fix-box">
+        <div class="fix-label">✓ Correction</div>
+        <p>Le Code by Zapier parse (décode) le tableau JSON et exporte 3 colonnes séparées : <strong>famille</strong>, <strong>sous_type</strong> et <strong>commentaire_produit</strong> — prêtes pour Excel.</p>
+      </div>
+    </div>
+
+    <div class="problem-card">
+      <div class="problem-header">
+        <div class="problem-emoji">🔁</div>
+        <div>
+          <h3>Problème 3 — Looping ne crée qu'une seule ligne</h3>
+          <div class="cause">familles_list était une chaîne de texte non parsée → Looping voyait 1 seul élément</div>
+        </div>
+      </div>
+      <div class="fix-box">
+        <div class="fix-label">✓ Correction</div>
+        <p>Le Code by Zapier crée des <strong>line items</strong> (éléments de liste) avec le séparateur <code>,,,</code> que Looping reconnaît. Si 3 familles → 3 lignes Excel automatiquement.</p>
+      </div>
+    </div>
+
+    <div class="problem-card">
+      <div class="problem-header">
+        <div class="problem-emoji">⚠️</div>
+        <div>
+          <h3>Problème 4 — Gemini "Unknown name raw"</h3>
+          <div class="cause">Le webhook envoyait {"raw":"..."} — un champ que l'API Gemini ne reconnaît pas</div>
+        </div>
+      </div>
+      <div class="fix-box">
+        <div class="fix-label">✓ Correction</div>
+        <p>L'API Gemini attend un format précis : <code>{"contents":[{"parts":[{"text":"..."}]}]}</code>. Voir la configuration complète ci-dessous.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CODE GEMINI ── -->
+  <div class="code-section">
+    <div class="section-title">
+      <div class="icon">&lt;/&gt;</div>
+      Configuration Gemini (Step 4)
+    </div>
+
+    <p style="color:#9999bb; font-size:14px; margin-bottom:20px;">
+      Dans Zapier, Step 4 → Webhooks by Zapier → POST. Copiez-collez le body ci-dessous.
+    </p>
+
+    <div class="code-block">
+      <div class="code-block-header">
+        <span class="filename">Body du Webhook Gemini</span>
+        <span class="lang">JSON</span>
+      </div>
+      <pre>{
+  <span class="key">"contents"</span>: [
+    {
+      <span class="key">"parts"</span>: [
+        {
+          <span class="key">"text"</span>: <span class="string">"VOTRE_PROMPT + email + site web ici"</span>
+        }
+      ]
+    }
+  ],
+  <span class="key">"generationConfig"</span>: {
+    <span class="key">"temperature"</span>: 0,
+    <span class="key">"responseMimeType"</span>: <span class="string">"application/json"</span>
+  }
+}</pre>
+    </div>
+
+    <p style="color:#9999bb; font-size:13px; margin-bottom:8px;">
+      <strong style="color:#ff6b6b;">URL à utiliser :</strong>
+    </p>
+    <div class="code-block">
+      <div class="code-block-header">
+        <span class="filename">URL du Webhook</span>
+        <span class="lang">URL</span>
+      </div>
+      <pre>https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=VOTRE_CLE_API</pre>
+    </div>
+
+    <p style="color:#9999bb; font-size:13px;">
+      Pour récupérer la réponse de Gemini dans Step 5, utilisez le champ :
+      <code style="background:#0a0a14; padding:2px 8px; border-radius:4px; color:#9cdcfe;">candidates[0].content.parts[0].text</code>
+    </p>
+  </div>
+
+  <!-- ── CODE BY ZAPIER ── -->
+  <div class="code-section">
+    <div class="section-title">
+      <div class="icon">&lt;/&gt;</div>
+      Code by Zapier (Step 6)
+    </div>
+
+    <p style="color:#9999bb; font-size:14px; margin-bottom:8px;">
+      Avant de coller ce code, configurez ces <strong>Input Fields</strong> dans Zapier :
+    </p>
+    <ul style="color:#9999bb; font-size:13px; margin-left:20px; margin-bottom:20px;">
+      <li><code style="color:#9cdcfe;">raw_json</code> → pointez sur <strong>{{step5.output}}</strong></li>
+      <li><code style="color:#9cdcfe;">familles_raw</code> → pointez sur <strong>{{step5.familles_list}}</strong></li>
+    </ul>
+
+    <div class="code-block">
+      <div class="code-block-header">
+        <span class="filename">Code by Zapier — Parse + Normalise</span>
+        <span class="lang">JavaScript</span>
+      </div>
+      <pre><span class="comment">// Récupère le JSON brut de l'IA</span>
+<span class="kw">const</span> rawJson = inputData.raw_json || <span class="string">""</span>;
+
+<span class="comment">// Nettoie les ```json que l'IA ajoute parfois</span>
+<span class="kw">const</span> cleaned = rawJson
+  .replace(<span class="string">/^```json\s*/i</span>, <span class="string">""</span>)
+  .replace(<span class="string">/^```\s*/i</span>, <span class="string">""</span>)
+  .replace(<span class="string">/```\s*$/i</span>, <span class="string">""</span>)
+  .trim();
+
+<span class="kw">let</span> data = JSON.parse(cleaned);
+
+<span class="comment">// Convertit true/false/VRAI/FAUX → Oui/Non</span>
+<span class="kw">function</span> <span class="fn">normalizeOuiNon</span>(val) {
+  <span class="kw">if</span> (!val) <span class="kw">return</span> <span class="string">"Non mentionné"</span>;
+  <span class="kw">const</span> s = String(val).toLowerCase().trim();
+  <span class="kw">if</span> ([<span class="string">"oui"</span>, <span class="string">"yes"</span>, <span class="string">"true"</span>, <span class="string">"vrai"</span>].includes(s)) <span class="kw">return</span> <span class="string">"Oui"</span>;
+  <span class="kw">if</span> ([<span class="string">"non"</span>, <span class="string">"no"</span>, <span class="string">"false"</span>, <span class="string">"faux"</span>].includes(s)) <span class="kw">return</span> <span class="string">"Non"</span>;
+  <span class="kw">return</span> <span class="string">"Non mentionné"</span>;
+}
+
+[<span class="string">"fsc"</span>, <span class="string">"pefc"</span>, <span class="string">"ecovadis"</span>, <span class="string">"gots"</span>, <span class="string">"oeko_tex"</span>].forEach(f => {
+  data[f] = <span class="fn">normalizeOuiNon</span>(data[f]);
+});
+
+<span class="comment">// Parse la liste des familles</span>
+<span class="kw">let</span> familles = Array.isArray(data.familles_list)
+  ? data.familles_list
+  : JSON.parse(data.familles_list || <span class="string">"[]"</span>);
+
+<span class="kw">if</span> (!familles.length) familles = [{ famille: <span class="string">"Autres"</span>, sous_type: <span class="string">""</span>, commentaire_produit: <span class="string">""</span> }];
+
+<span class="comment">// Prépare les line items pour le Looping (séparateur ,,,)</span>
+output = {
+  fournisseur:          data.fournisseur || <span class="string">""</span>,
+  statut:               data.statut || <span class="string">"Inactif"</span>,
+  contact_prenom_nom:   data.contact_prenom_nom || <span class="string">""</span>,
+  email:                data.email || <span class="string">""</span>,
+  site_web:             data.site_web || <span class="string">""</span>,
+  pays:                 data.pays || <span class="string">""</span>,
+  continent:            data.continent || <span class="string">""</span>,
+  conditions_livraison: data.conditions_livraison || <span class="string">"Non mentionné"</span>,
+  port_depart:          data.port_depart || <span class="string">""</span>,
+  fsc:                  data.fsc,
+  pefc:                 data.pefc,
+  ecovadis:             data.ecovadis,
+  gots:                 data.gots,
+  oeko_tex:             data.oeko_tex,
+  score_total:          String(data.score_total || <span class="string">""</span>),
+  score_detail:         data.score_detail || <span class="string">""</span>,
+  resume:               data.resume || <span class="string">""</span>,
+  visite:               data.visite || <span class="string">"Non"</span>,
+  familles_count:       String(familles.length),
+  familles_famille:     familles.map(f => f.famille).join(<span class="string">","</span>),
+  familles_sous_type:   familles.map(f => f.sous_type).join(<span class="string">","</span>),
+  familles_commentaire: familles.map(f => f.commentaire_produit).join(<span class="string">","</span>),
+};</pre>
+    </div>
+  </div>
+
+  <!-- ── MAPPING EXCEL ── -->
+  <div class="excel-section">
+    <div class="section-title">
+      <div class="icon">⊞</div>
+      Mapping Excel (Step 8 — dans la boucle)
+    </div>
+    <p style="color:#9999bb; font-size:14px; margin-bottom:20px;">
+      Dans Excel Step 8, mappez chaque colonne comme suit. Les champs Step 7 viennent du Looping.
+    </p>
+    <div class="excel-table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Colonne Excel</th>
+            <th>Valeur Zapier à utiliser</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Fournisseur</td><td>{{step6.fournisseur}}</td></tr>
+          <tr><td>Statut</td><td>{{step6.statut}}</td></tr>
+          <tr><td>Intérêt</td><td>{{step6.score_total}}</td></tr>
+          <tr><td>Continent</td><td>{{step6.continent}}</td></tr>
+          <tr><td>Pays</td><td>{{step6.pays}}</td></tr>
+          <tr><td>Famille</td><td>{{step7.famille}} ← vient du Loop</td></tr>
+          <tr><td>Sous-type</td><td>{{step7.sous_type}} ← vient du Loop</td></tr>
+          <tr><td>Commentaire produit</td><td>{{step7.commentaire}} ← vient du Loop</td></tr>
+          <tr><td>Contact commercial</td><td>{{step6.contact_prenom_nom}}</td></tr>
+          <tr><td>Mail</td><td>{{step6.email}}</td></tr>
+          <tr><td>Site web</td><td>{{step6.site_web}}</td></tr>
+          <tr><td>Conditions livraison</td><td>{{step6.conditions_livraison}}</td></tr>
+          <tr><td>Port départ</td><td>{{step6.port_depart}}</td></tr>
+          <tr><td>FSC</td><td>{{step6.fsc}}</td></tr>
+          <tr><td>PEFC</td><td>{{step6.pefc}}</td></tr>
+          <tr><td>Ecovadis</td><td>{{step6.ecovadis}}</td></tr>
+          <tr><td>GOTS</td><td>{{step6.gots}}</td></tr>
+          <tr><td>OEKO-TEX</td><td>{{step6.oeko_tex}}</td></tr>
+          <tr><td>Visite</td><td>{{step6.visite}}</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── CHECKLIST ── -->
+  <div class="checklist">
+    <div class="section-title">
+      <div class="icon">✓</div>
+      Checklist de mise en place
+    </div>
+
+    <div class="check-group">
+      <h3>📧 Step 1 — Gmail</h3>
+      <div class="check-item">
+        <input type="checkbox" id="c1">
+        <label for="c1">Trigger configuré sur "New Email Matching Search"</label>
+      </div>
+      <div class="check-item">
+        <input type="checkbox" id="c2">
+        <label for="c2">Search string avec tous les mots-clés (bag, packaging, sac, factory…)</label>
+      </div>
+    </div>
+
+    <div class="check-group">
+      <h3>🤖 Step 4 — Gemini</h3>
+      <div class="check-item">
+        <input type="checkbox" id="c3">
+        <label for="c3">URL correcte avec votre clé API Google</label>
+      </div>
+      <div class="check-item">
+        <input type="checkbox" id="c4">
+        <label for="c4">Body en format contents/parts/text (pas "raw")</label>
+      </div>
+      <div class="check-item">
+        <input type="checkbox" id="c5">
+        <label for="c5">responseMimeType: "application/json" activé</label>
+      </div>
+    </div>
+
+    <div class="check-group">
+      <h3>⚙️ Step 6 — Code by Zapier</h3>
+      <div class="check-item">
+        <input type="checkbox" id="c6">
+        <label for="c6">Input Field "raw_json" pointe sur {{step5.output}}</label>
+      </div>
+      <div class="check-item">
+        <input type="checkbox" id="c7">
+        <label for="c7">Code collé et sauvegardé</label>
+      </div>
+      <div class="check-item">
+        <input type="checkbox" id="c8">
+        <label for="c8">Test : familles_count > 0 dans les outputs</label>
+      </div>
+      <div class="check-item">
+        <input type="checkbox" id="c9">
+        <label for="c9">Test : fsc/pefc/gots = "Oui", "Non" ou "Non mentionné"</label>
+      </div>
+    </div>
+
+    <div class="check-group">
+      <h3>🔁 Step 7 — Looping</h3>
+      <div class="check-item">
+        <input type="checkbox" id="c10">
+        <label for="c10">Action : "Loop from Line Items"</label>
+      </div>
+      <div class="check-item">
+        <input type="checkbox" id="c11">
+        <label for="c11">Champ famille → {{step6.familles_famille}}</label>
+      </div>
+      <div class="check-item">
+        <input type="checkbox" id="c12">
+        <label for="c12">Test : autant d'itérations que de familles</label>
+      </div>
+    </div>
+
+    <div class="check-group">
+      <h3>📊 Step 8 — Excel</h3>
+      <div class="check-item">
+        <input type="checkbox" id="c13">
+        <label for="c13">Fichier : "Tableur Fournisseurs tests.xlsm"</label>
+      </div>
+      <div class="check-item">
+        <input type="checkbox" id="c14">
+        <label for="c14">Onglet : "Feuil1"</label>
+      </div>
+      <div class="check-item">
+        <input type="checkbox" id="c15">
+        <label for="c15">Toutes les colonnes mappées selon le tableau ci-dessus</label>
+      </div>
+      <div class="check-item">
+        <input type="checkbox" id="c16">
+        <label for="c16">Test final : 1 fournisseur avec 2 familles = 2 lignes Excel</label>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <p>Guide interne <strong>Outtarget</strong> — Automatisation Zapier fournisseurs emballages &amp; sacs</p>
+</footer>
+
+</body>
+</html>
